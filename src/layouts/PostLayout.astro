@@ -1,0 +1,70 @@
+---
+import BaseLayout from './BaseLayout.astro';
+const { title, description, pubDate, category = 'Practice', principle, minutes } = Astro.props;
+const date = new Date(pubDate).toLocaleDateString('en-AU', { year: 'numeric', month: 'long', day: 'numeric' });
+---
+<BaseLayout title={`${title} — Strategic L&D`} description={description} current="blog">
+  <article class="post">
+    <header class="post-head">
+      <div class="meta">
+        <span class="num">{principle ? `Principle ${String(principle).padStart(2, '0')}` : 'Field note'}</span>
+        <span class="sep">·</span>
+        <span>{category}</span>
+        <span class="sep">·</span>
+        <time datetime={new Date(pubDate).toISOString()}>{date}</time>
+      </div>
+      <h1>{title}</h1>
+      <p class="deck">{description}</p>
+    </header>
+    <div class="prose">
+      <slot />
+    </div>
+    <footer class="post-foot">
+      <a href="/blog" class="back">← All notes</a>
+      <a href="/#commission" class="btn-secondary">Commission a piece of work →</a>
+    </footer>
+  </article>
+</BaseLayout>
+
+<style>
+  .post { max-width: 760px; margin: 0 auto; padding: var(--s7) var(--pad-x) var(--s6); }
+  .post-head { padding-bottom: var(--s5); border-bottom: 2px solid var(--ink); margin-bottom: var(--s5); }
+  .meta {
+    font-family: var(--font-mono); font-size: var(--t-mono); letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--ink-soft); display: flex; gap: 12px; flex-wrap: wrap;
+  }
+  .meta .sep { color: var(--ink-faint); }
+  .post-head h1 {
+    font-family: var(--font-display); font-weight: 900; font-size: var(--t-display);
+    letter-spacing: -0.035em; line-height: 0.98; margin: var(--s3) 0 var(--s3);
+  }
+  .post-head .deck { font-size: var(--t-deck); line-height: 1.55; color: var(--ink-soft); max-width: 60ch; }
+
+  /* editorial prose — applies to MDX body */
+  .prose :global(h2) {
+    font-family: var(--font-display); font-weight: 900; font-size: var(--t-h2);
+    letter-spacing: -0.025em; line-height: 1.05; margin: var(--s6) 0 var(--s2);
+  }
+  .prose :global(h3) {
+    font-family: var(--font-display); font-weight: 800; font-size: var(--t-h3);
+    letter-spacing: -0.015em; margin: var(--s5) 0 var(--s2);
+  }
+  .prose :global(p) { font-size: 18px; line-height: 1.7; margin: 0 0 var(--s3); color: var(--ink); }
+  .prose :global(a) { color: var(--ink); border-bottom: 1px solid var(--signal); }
+  .prose :global(a:hover) { color: var(--signal); }
+  .prose :global(strong) { font-weight: 700; }
+  .prose :global(ul), .prose :global(ol) { margin: 0 0 var(--s3) var(--s3); }
+  .prose :global(li) { font-size: 18px; line-height: 1.7; margin-bottom: var(--s1); }
+  .prose :global(blockquote) {
+    border-left: 3px solid var(--signal); padding-left: var(--s3); margin: var(--s4) 0;
+    font-size: 22px; line-height: 1.5; color: var(--ink); font-weight: 500;
+  }
+  .prose :global(hr) { border: none; border-top: 1px dashed var(--line-soft); margin: var(--s5) 0; }
+
+  .post-foot {
+    margin-top: var(--s7); padding-top: var(--s4); border-top: 2px solid var(--ink);
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--s3);
+  }
+  .back { font-family: var(--font-mono); font-size: var(--t-small); letter-spacing: 0.08em; color: var(--ink-soft); }
+  .back:hover { color: var(--ink); }
+</style>

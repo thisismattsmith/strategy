@@ -1,0 +1,69 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+<BaseLayout title="Notes — Strategic L&D" description="Short pieces on the principles behind the work. Practice, not theory." current="blog">
+  <main class="wrap">
+    <header class="head">
+      <span class="num">Field notes</span>
+      <h1>Field <span class="accent">notes</span>.</h1>
+      <p class="deck">Short pieces on the principles behind the work. One per principle, written from practice rather than theory.</p>
+    </header>
+
+    {posts.length === 0 ? (
+      <p class="empty">No notes published yet.</p>
+    ) : (
+      <ul class="list">
+        {posts.map((post) => {
+          const date = post.data.pubDate.toLocaleDateString('en-AU', { year: 'numeric', month: 'short' });
+          return (
+            <li>
+              <a href={`/blog/${post.id}`}>
+                <div class="l-meta">
+                  <span>{post.data.principle ? `No. ${String(post.data.principle).padStart(2, '0')}` : 'Note'}</span>
+                  <span>{date}</span>
+                  <span class="cat">{post.data.category}</span>
+                </div>
+                <h2>{post.data.title}</h2>
+                <p>{post.data.description}</p>
+                <span class="read">Read →</span>
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    )}
+  </main>
+</BaseLayout>
+
+<style>
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: var(--s7) var(--pad-x) var(--s6); }
+  .head { padding-bottom: var(--s5); border-bottom: 2px solid var(--ink); margin-bottom: var(--s5); }
+  .head .num { font-family: var(--font-mono); font-size: var(--t-mono); letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink-soft); }
+  .head h1 { font-family: var(--font-display); font-weight: 900; font-size: var(--t-display); letter-spacing: -0.035em; line-height: 0.95; margin: var(--s3) 0 var(--s3); }
+  .head .deck { font-size: var(--t-deck); line-height: 1.55; color: var(--ink-soft); max-width: 60ch; }
+
+  .list { list-style: none; }
+  .list li { border-bottom: 1px dashed var(--line-soft); }
+  .list li:first-child { border-top: 1px dashed var(--line-soft); }
+  .list a {
+    display: grid; grid-template-columns: 160px 1fr auto; gap: var(--s4); align-items: baseline;
+    padding: var(--s4) 0; transition: background 0.15s; position: relative;
+  }
+  .list a:hover { background: var(--paper-2); }
+  .l-meta { font-family: var(--font-mono); font-size: var(--t-mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-faint); display: flex; flex-direction: column; gap: 6px; }
+  .l-meta .cat { color: var(--ink-soft); }
+  .list h2 { font-family: var(--font-display); font-weight: 800; font-size: var(--t-h3); letter-spacing: -0.02em; line-height: 1.1; color: var(--ink); }
+  .list a p { grid-column: 2; font-size: 15px; line-height: 1.55; color: var(--ink-soft); margin-top: 8px; max-width: 60ch; }
+  .read { font-family: var(--font-mono); font-size: var(--t-small); color: var(--ink-faint); align-self: center; }
+  .list a:hover .read { color: var(--signal); }
+  .empty { color: var(--ink-soft); }
+
+  @media (max-width: 700px) {
+    .list a { grid-template-columns: 1fr; gap: var(--s2); }
+    .list a p { grid-column: 1; }
+  }
+</style>

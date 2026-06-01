@@ -1,0 +1,88 @@
+---
+// Header.astro — black utility strip + nav, shared across all pages.
+const { current = '' } = Astro.props;
+const nav = [
+  { href: '/',           label: 'Home',      key: 'home' },
+  { href: '/about',      label: 'About',     key: 'about' },
+  { href: '/problems',   label: 'Problems',  key: 'problems' },
+  { href: '/catalogue',  label: 'Catalogue', key: 'catalogue' },
+  { href: '/blog',       label: 'Notes',     key: 'blog' },
+];
+---
+<div class="util">
+  <div class="left">
+    <span>Strategic L&amp;D · L&amp;D Strategy Design Office</span>
+    <span class="sep">·</span>
+    <span>Est. 2026</span>
+  </div>
+  <div class="right">
+    <span>Wadawurrung Country / Australia</span>
+    <span class="sep">·</span>
+    <span class="live"><span class="dot"></span> Q3 ’26 · Engagements open</span>
+  </div>
+</div>
+
+<nav>
+  <a href="/" class="logo"><span class="swatch"></span> Strategic L&amp;D</a>
+  <ul>
+    {nav.map((n) => (
+      <li><a class="navlink" href={n.href} aria-current={current === n.key ? 'page' : undefined}>{n.label}</a></li>
+    ))}
+  </ul>
+  <div class="right-set">
+    <a href="/#commission" class="btn-nav">Commission <span>→</span></a>
+  </div>
+</nav>
+
+<style>
+  .util {
+    position: relative; z-index: 10;
+    background: var(--ink); color: var(--paper);
+    padding: 9px var(--pad-x);
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: var(--font-mono); font-size: var(--t-mono-sm);
+    letter-spacing: 0.20em; text-transform: uppercase;
+  }
+  .util .left  { display: flex; gap: 18px; align-items: center; }
+  .util .right { display: flex; gap: 24px; align-items: center; }
+  .util .live { display: inline-flex; align-items: center; gap: 8px; }
+  .util .dot {
+    width: 7px; height: 7px; background: var(--signal); border-radius: 50%;
+    animation: pulse 2.4s ease-out infinite;
+  }
+  @keyframes pulse {
+    0%   { box-shadow: 0 0 0 0 rgba(232,90,12,0.5); }
+    70%  { box-shadow: 0 0 0 6px rgba(232,90,12,0); }
+    100% { box-shadow: 0 0 0 0 rgba(232,90,12,0); }
+  }
+  .util .sep { color: var(--ink-faint); }
+
+  nav {
+    position: relative; z-index: 10;
+    padding: var(--s3) var(--pad-x);
+    border-bottom: 1px solid var(--line);
+    display: grid; grid-template-columns: auto 1fr auto;
+    gap: var(--s5); align-items: center;
+  }
+  .logo {
+    font-family: var(--font-display); font-weight: 900; font-size: 20px;
+    letter-spacing: -0.02em; color: var(--ink);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .logo .swatch { width: 14px; height: 14px; background: var(--signal); border-radius: 50%; }
+  nav ul { display: flex; gap: 28px; list-style: none; font-size: var(--t-small); font-weight: 500; justify-content: center; }
+  .navlink { padding-bottom: 4px; border-bottom: 1px solid transparent; transition: border-color 0.15s; }
+  .navlink:hover, .navlink[aria-current="page"] { border-color: var(--ink); }
+  .btn-nav {
+    background: var(--ink); color: var(--paper); padding: 11px 20px;
+    font-weight: 700; font-size: 12px; letter-spacing: 0.04em;
+    display: inline-flex; align-items: center; gap: 10px; transition: background 0.15s;
+  }
+  .btn-nav:hover { background: var(--signal); }
+
+  @media (max-width: 900px) {
+    .util .right { display: none; }
+    nav { grid-template-columns: auto auto; gap: var(--s3); }
+    nav ul { display: none; }
+  }
+</style>
