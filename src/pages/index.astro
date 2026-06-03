@@ -1,29 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Availability from '../components/Availability.astro';
+import ChallengeMatcher from '../components/ChallengeMatcher.astro';
 import ContactCTA from '../components/ContactCTA.astro';
-import { getCollection } from 'astro:content';
-
-const posts = (await getCollection('blog', ({ data }) => !data.draft))
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
-
-const principles = [
-  'Content is not training.',
-  'Training must reflect reality as close as possible.',
-  'The goal is to improve performance.',
-  'Skills are developed over time, not in one sitting.',
-  "People must care about what they're learning.",
-  'Information supports skill development, it does not create skills.',
-  'Measure change, quality and results.',
-  'Assessment is practice with a score.',
-  'Learning is mental, physical and emotional.',
-  'Technology is only a problem when the above is ignored.',
-];
-
-// map a principle to a post slug if one exists
-const postByPrinciple = new Map(
-  posts.filter((p) => p.data.principle).map((p) => [p.data.principle, p.id])
-);
 ---
 <BaseLayout current="home">
   <main>
@@ -39,80 +17,8 @@ const postByPrinciple = new Map(
       </div>
     </section>
 
-    <!-- AVAILABILITY -->
-    <Availability />
-
-    <!-- SERVICES -->
-    <div class="section-header">
-      <h2>Four services. Four outcomes.</h2>
-      <p class="desc">Each engagement is a defined product: scoped, priced, and built to be handed over. You commission one. We deliver it. You run it.</p>
-    </div>
-    <div class="catalogue">
-      <article class="cat-item">
-        <div class="cat-head"><span><span class="swatch-mini" style="background:var(--signal)"></span><strong>A-01</strong> · Foundations</span><span>2–3 weeks</span></div>
-        <div class="cat-body"><h3>Design Principles</h3><p>A short engagement to help your team articulate the principles that govern your L&amp;D work, so future decisions about scope, format, and quality become faster and more consistent.</p></div>
-        <div class="cat-foot"><a class="cta" href="/#contact">Create your design principles</a><span class="ref">REF. A-01</span></div>
-      </article>
-      <article class="cat-item">
-        <div class="cat-head"><span><span class="swatch-mini" style="background:var(--sys-yellow)"></span><strong>A-02</strong> · Operations</span><span>4–8 weeks</span></div>
-        <div class="cat-body"><h3>Process Design</h3><p>A review and redesign of your L&amp;D operating processes: intake, design, build, review, deployment. The team ships better work in less time, with less rework, and no rituals dressed up as method.</p></div>
-        <div class="cat-foot"><a class="cta" href="/#contact">Redesign the process</a><span class="ref">REF. A-02</span></div>
-      </article>
-      <article class="cat-item">
-        <div class="cat-head"><span><span class="swatch-mini" style="background:var(--sys-green)"></span><strong>A-03</strong> · Strategy</span><span>6–12 weeks</span></div>
-        <div class="cat-body"><h3>Learning Strategy</h3><p>An organisational learning strategy that answers what the business actually needs, what L&amp;D will and won't do, and how performance will be measured. A document leadership can read in twenty minutes and act on.</p></div>
-        <div class="cat-foot"><a class="cta" href="/#contact">Let's talk strategy</a><span class="ref">REF. A-03</span></div>
-      </article>
-      <article class="cat-item">
-        <div class="cat-head"><span><span class="swatch-mini" style="background:var(--sys-blue)"></span><strong>A-04</strong> · Capability</span><span>Workshops &amp; programmes</span></div>
-        <div class="cat-body"><h3>Strategic Thinking</h3><p>Workshops and programmes designed to build the strategic muscle of your L&amp;D team, so the work outlasts the engagement and your people stop being seen as order-takers.</p></div>
-        <div class="cat-foot"><a class="cta" href="/#contact">Ready to be strategic?</a><span class="ref">REF. A-04</span></div>
-      </article>
-    </div>
-
-    <!-- PRINCIPLES -->
-    <div class="section-header" id="principles">
-      <h2>Ten principles behind the work.</h2>
-      <p class="desc">The point of view that runs through every engagement. Each one is written up as a short field note. Practice, not theory.</p>
-    </div>
-    <aside class="principles">
-      <ol class="principles-list">
-        {principles.map((p, i) => {
-          const slug = postByPrinciple.get(i + 1);
-          return (
-            <li>
-              {slug
-                ? <a href={`/blog/${slug}`}>{p}</a>
-                : <span class="pending">{p}</span>}
-            </li>
-          );
-        })}
-      </ol>
-    </aside>
-
-    <!-- METHOD -->
-    <div class="section-header">
-      <h2>A method, not a methodology.</h2>
-      <p class="desc">Four phases. Each one ends with a decision, not a deliverable. We do not sell discovery. We do the work.</p>
-    </div>
-    <div class="method">
-      <div class="method-step"><span class="stepnum">Step 01 / Diagnose</span><p>Interview the people doing the work. Audit the artefacts. Find what's actually slowing the team down, not what people think is slowing them down.</p><h4>Diagnose</h4></div>
-      <div class="method-step"><span class="stepnum">Step 02 / Decide</span><p>Agree what the team will do, won't do, and will stop doing. Cuts come before additions. Nothing new ships until something old is removed.</p><h4>Decide</h4></div>
-      <div class="method-step"><span class="stepnum">Step 03 / Design</span><p>Build the principles, the process, or the strategy. Document it in a form the team will actually use: short, plain, durable.</p><h4>Design</h4></div>
-      <div class="method-step"><span class="stepnum">Step 04 / Hand over</span><p>Leave the team capable of running it themselves. No retainer dependency. No recurring fees. If you need us again, it's because something changed.</p><h4>Hand over</h4></div>
-    </div>
-
-    <!-- TRACK RECORD -->
-    <div class="section-header">
-      <h2>Over 15 years inside the work.</h2>
-      <p class="desc">Built on L&amp;D practice across financial services, retail, energy, government, and technology. The same person doing the work today did it in-house, before consulting on it.</p>
-    </div>
-    <div class="metrics">
-      <div class="metric"><div class="figure">15+<span class="unit">yrs</span></div><div class="mlabel">L&amp;D practice<br />across sectors</div></div>
-      <div class="metric"><div class="figure">20+<span class="unit">yrs</span></div><div class="mlabel">Management<br />experience</div></div>
-      <div class="metric"><div class="figure">04</div><div class="mlabel">Defined products<br />nothing custom-quoted</div></div>
-      <div class="metric"><div class="figure">00</div><div class="mlabel">Retainers<br />required</div></div>
-    </div>
+    <!-- CHALLENGES → SERVICES MATCHER -->
+    <ChallengeMatcher />
 
     <!-- CONTACT -->
     <ContactCTA />

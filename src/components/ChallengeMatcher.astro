@@ -1,0 +1,251 @@
+---
+// ChallengeMatcher.astro — interactive challenge → service matcher.
+// Data is shared with the Services page; edit once in src/data/services-data.ts.
+
+import { CHALLENGES, SERVICES, refFor } from '../data/services-data';
+---
+<section class="matcher" id="challenges">
+  <div class="matcher-header">
+    <h2>What are your challenges?</h2>
+    <p>Let's see if I can help. How do you feel about L&amp;D right now?</p>
+  </div>
+
+  <ul class="challenges" role="list">
+    {CHALLENGES.map((ch) => (
+      <li>
+        <button
+          type="button"
+          class="challenge"
+          data-challenge-id={ch.id}
+          aria-pressed="false"
+        >
+          <span class="ch-title">{ch.text}</span>
+          <span class="ch-check" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="square" stroke-linejoin="miter">
+              <polyline points="5 12.5 10 17.5 19 7.5" />
+            </svg>
+          </span>
+        </button>
+      </li>
+    ))}
+  </ul>
+
+  <div class="how-i-can-help">
+    <h3>How I can help</h3>
+    <p class="empty-msg">Select one or more challenges above to see how I can help.</p>
+
+    <ul class="services" role="list">
+      {SERVICES.map((s, i) => (
+        <li>
+          <article
+            class="service"
+            data-service-id={s.id}
+            data-relevant-challenges={s.helpsWith.join(',')}
+            hidden
+          >
+            <div class="svc-title-block">
+              <h4 class="service-title">{s.title}</h4>
+              <p class="service-desc">{s.description}</p>
+            </div>
+            <div class="svc-foot">
+              <a class="service-link" href="/#contact">Let's talk about it <span class="arrow">→</span></a>
+              <span class="service-ref">{refFor(i)}</span>
+            </div>
+          </article>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<script is:inline>
+  (() => {
+    const matcher = document.querySelector('.matcher');
+    if (!matcher) return;
+    const challengeBtns = matcher.querySelectorAll('[data-challenge-id]');
+    const services      = matcher.querySelectorAll('[data-service-id]');
+    const emptyMsg      = matcher.querySelector('.empty-msg');
+    const selected      = new Set();
+
+    const refresh = () => {
+      let visibleCount = 0;
+      services.forEach((svc) => {
+        const relevant = svc.dataset.relevantChallenges.split(',');
+        const match = relevant.some((id) => selected.has(id));
+        if (match) {
+          svc.removeAttribute('hidden');
+          visibleCount++;
+        } else {
+          svc.setAttribute('hidden', '');
+        }
+      });
+      if (emptyMsg) {
+        if (selected.size === 0) emptyMsg.removeAttribute('hidden');
+        else emptyMsg.setAttribute('hidden', '');
+      }
+    };
+
+    challengeBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.challengeId;
+        if (selected.has(id)) {
+          selected.delete(id);
+          btn.classList.remove('is-selected');
+          btn.setAttribute('aria-pressed', 'false');
+        } else {
+          selected.add(id);
+          btn.classList.add('is-selected');
+          btn.setAttribute('aria-pressed', 'true');
+        }
+        refresh();
+      });
+    });
+
+    refresh();
+  })();
+</script>
+
+<style>
+  .matcher { margin-top: var(--s7); padding-top: var(--s4); border-top: 2px solid var(--ink); }
+  .matcher-header h2 {
+    font-family: var(--font-display); font-weight: 900;
+    font-size: var(--t-h2); letter-spacing: -0.025em; line-height: 1.0;
+  }
+  .matcher-header p {
+    margin-top: var(--s2);
+    font-size: var(--t-body); line-height: 1.55;
+    color: var(--ink-soft); max-width: 60%;
+  }
+
+  /* ---- challenges grid ---- */
+  /* Smaller cards with gap around them (no shared dark dividers).
+     Each card has its own thin border; layout breathes. */
+  .challenges {
+    list-style: none; padding: 0;
+    margin: var(--s5) 0 var(--s6);
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: var(--s2);
+  }
+  .challenges li { background: transparent; display: flex; }
+
+  .challenge {
+    flex: 1;
+    background: var(--paper);
+    border: 1px solid var(--line-soft);
+    padding: 18px 20px;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    text-align: left;
+    cursor: pointer;
+    font-family: inherit;
+    color: var(--ink);
+    transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
+  }
+  .challenge:hover { border-color: var(--ink); }
+  /* Selected state: ink border + inset 1px to bolden the line without layout shift. */
+  .challenge.is-selected {
+    background: var(--paper-2);
+    border-color: var(--ink);
+    box-shadow: inset 0 0 0 1px var(--ink);
+  }
+
+  .ch-title {
+    font-family: var(--font-display); font-weight: 700;
+    font-size: 16px; line-height: 1.35; letter-spacing: -0.005em;
+  }
+
+  /* Checkbox — system green fill when selected, white tick */
+  .ch-check {
+    flex-shrink: 0;
+    width: 24px; height: 24px;
+    border: 1.5px solid var(--ink);
+    display: inline-flex; align-items: center; justify-content: center;
+    color: transparent;
+    background: var(--paper);
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+  }
+  .ch-check svg { width: 16px; height: 16px; }
+  .challenge.is-selected .ch-check {
+    background: var(--sys-green);
+    border-color: var(--sys-green);
+    color: #fff;
+  }
+
+  /* ---- How I can help ---- */
+  .how-i-can-help {
+    margin-top: var(--s6); padding-top: var(--s4);
+    border-top: 1px solid var(--line);
+  }
+  .how-i-can-help h3 {
+    font-family: var(--font-display); font-weight: 900;
+    font-size: var(--t-h3); letter-spacing: -0.02em; line-height: 1.0;
+  }
+  .empty-msg {
+    margin-top: var(--s3);
+    font-size: var(--t-body); line-height: 1.55;
+    color: var(--ink-soft); font-style: italic;
+  }
+
+  /* ---- service cards (catalogue-style, simplified) ----
+     Three rows: title block → (horizontal line) → foot.
+     Each card has its own thin ink border. Visible cards form the grid
+     via the gap; hidden cards collapse so odd counts don't show empty
+     dark cells. */
+  .services {
+    list-style: none; padding: 0;
+    margin-top: var(--s4);
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: var(--s3);
+  }
+  .services > li { display: flex; }
+  .services > li:has(.service[hidden]) { display: none; }
+
+  .service {
+    flex: 1;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    padding: 28px 28px 24px;
+    display: flex; flex-direction: column;
+    min-height: 240px;
+    transition: background 0.2s;
+  }
+  .service:hover { background: var(--paper-2); }
+
+  .svc-title-block { padding-bottom: var(--s3); }
+  .service-title {
+    font-family: var(--font-display); font-weight: 900;
+    font-size: 26px; letter-spacing: -0.02em; line-height: 1.05;
+    margin-bottom: 12px;
+  }
+  .service-desc {
+    font-size: 15px; line-height: 1.55; color: var(--ink-soft);
+    max-width: 50ch;
+  }
+
+  /* Foot — horizontal line above, CTA on left, REF code on right. */
+  .svc-foot {
+    margin-top: auto;
+    padding-top: var(--s2);
+    border-top: 1px solid var(--line-soft);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .service-link {
+    font-family: var(--font-display); font-weight: 700;
+    font-size: 14px; letter-spacing: 0.01em;
+    color: var(--ink);
+    border-bottom: 1px solid var(--ink); padding-bottom: 2px;
+    display: inline-flex; align-items: center; gap: 6px;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .service-link:hover { color: var(--signal); border-color: var(--signal); }
+  .service-link .arrow { display: inline-block; transition: transform 0.18s ease; }
+  .service-link:hover .arrow { transform: translateX(3px); }
+  .service-ref {
+    font-family: var(--font-mono); font-size: 10px;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+
+  @media (max-width: 720px) {
+    .challenges, .services { grid-template-columns: 1fr; }
+  }
+</style>

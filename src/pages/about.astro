@@ -2,75 +2,70 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ContactCTA from '../components/ContactCTA.astro';
 ---
-<BaseLayout title="About · Strategic L&D" description="A strategy design office for L&D teams." current="about">
+<BaseLayout
+  title="About · Strategic L&D"
+  description="Learning related functions share common challenges with other teams, and have their own. Strategic L&D helps you solve the unique ones."
+  current="about"
+>
   <article class="about">
     <header class="about-head">
-      <div class="kicker">About</div>
-      <h1>A strategy design office for <span class="accent">L&amp;D teams</span>.</h1>
-      <p class="deck">Placeholder for the deck-line summary. One or two sentences that frame who Strategic L&amp;D is for and what it actually does.</p>
+      <h1>Solve the <span class="accent">unique</span> challenges of L&amp;D.</h1>
     </header>
+
     <div class="about-body">
-      <p>Placeholder body copy. Replace this with the longer narrative about Strategic L&amp;D: the perspective that drove starting it, the kinds of teams it works with, the work it doesn't do, and the operating principles that show up in every engagement.</p>
-      <p>Aim for 600 to 1200 words. Plain, direct prose. Short paragraphs. The reader is an L&amp;D leader weighing whether to start a conversation.</p>
-      <p>End the body with something concrete: a position, a promise, or a question that invites the next step.</p>
+      <p>Learning related functions (L&amp;D, Enablement, Capability) share common challenges with other internal teams. They also have their own unique problems and opportunities.</p>
+
+      <p>Our work is spread throughout the organisation and touches everyone within it. We have to jump between topics, business areas and projects while maintaining a focus on the science of learning, performance improvement and the technology we manage. We have to be simultaneously creative and business minded. We have to deal with pre-conceived notions of what we do, who we are, and how to work with us. We're often relied upon and sometimes considered unnecessary: a cost centre.</p>
+
+      <p>While most people will agree that learning is crucial to business success, and to achieving the organisation's strategy, we may not be seen as a strategic part of the business.</p>
+
+      <h2>What does being strategic mean?</h2>
+
+      <p>Operating strategically means focusing on long-term goals and adapting to changes in the organisation. Actions align with the overall mission and vision. It's not just having a strategy. It's being able to zoom in and zoom out as the need arises. Focusing on the macro and micro at the same time. Having methods to help understand and better serve the organisation you're in. Being perceived as an enabler, not content developers and facilitators.</p>
+
+      <p>Without being strategic we're reactive. And we can't do our best work.</p>
+
+      <h2>Changing the narrative</h2>
+
+      <p>Everyone wants L&amp;D to be strategic. Why wouldn't they? Sure, sometimes people "just want this course made" but that's on the surface. Everyone wants to work with colleagues who get what they do, why they do it and understand what they want. They appreciate expert advice that helps them solve their problems. They benefit from support that is targeted, effective and efficient.</p>
+
+      <h3>Getting the balance right between effective and efficient</h3>
+
+      <p>Effective is getting results and outcomes. Efficiency is reducing unnecessary waste. The two are often in conflict (or appear to be in conflict) when we're doing analytical and creative work. It's important to find the right balance.</p>
+
+      <p>In order to get this balance, and be more strategic, we need to build supporting capabilities and the processes to back it up.</p>
     </div>
   </article>
 
-  <!-- Sections re-used from the homepage to give the About page more substance -->
   <main class="about-sections">
-    <!-- TRACK RECORD -->
+    <!-- HOW WE WORK TOGETHER -->
     <div class="section-header">
-      <h2>Over 15 years inside the work.</h2>
-      <p class="desc">Built on L&amp;D practice across financial services, retail, energy, government, and technology. The same person doing the work today did it in-house, before consulting on it.</p>
-    </div>
-    <div class="metrics">
-      <div class="metric"><div class="figure">15+<span class="unit">yrs</span></div><div class="mlabel">L&amp;D practice<br />across sectors</div></div>
-      <div class="metric"><div class="figure">20+<span class="unit">yrs</span></div><div class="mlabel">Management<br />experience</div></div>
-      <div class="metric"><div class="figure">04</div><div class="mlabel">Defined products<br />nothing custom-quoted</div></div>
-      <div class="metric"><div class="figure">00</div><div class="mlabel">Retainers<br />required</div></div>
-    </div>
-
-    <!-- SERVICES (heading renamed for About page) -->
-    <div class="section-header">
-      <h2>Two ways to work together.</h2>
-      <p class="desc">Each engagement is a defined product: scoped, priced, and built to be handed over. You commission one. We deliver it. You run it.</p>
-    </div>
-    <div class="catalogue">
-      <article class="cat-item">
-        <div class="cat-head"><span><span class="swatch-mini" style="background:var(--signal)"></span><strong>A-01</strong> · Foundations</span><span>2–3 weeks</span></div>
-        <div class="cat-body"><h3>Design Principles</h3><p>A short engagement to help your team articulate the principles that govern your L&amp;D work, so future decisions about scope, format, and quality become faster and more consistent.</p></div>
-        <div class="cat-foot"><a class="cta" href="/#contact">Create your design principles</a><span class="ref">REF. A-01</span></div>
-      </article>
-      <article class="cat-item">
-        <div class="cat-head"><span><span class="swatch-mini" style="background:var(--sys-yellow)"></span><strong>A-02</strong> · Operations</span><span>4–8 weeks</span></div>
-        <div class="cat-body"><h3>Process Design</h3><p>A review and redesign of your L&amp;D operating processes: intake, design, build, review, deployment. The team ships better work in less time, with less rework, and no rituals dressed up as method.</p></div>
-        <div class="cat-foot"><a class="cta" href="/#contact">Redesign the process</a><span class="ref">REF. A-02</span></div>
-      </article>
-      <article class="cat-item">
-        <div class="cat-head"><span><span class="swatch-mini" style="background:var(--sys-green)"></span><strong>A-03</strong> · Strategy</span><span>6–12 weeks</span></div>
-        <div class="cat-body"><h3>Learning Strategy</h3><p>An organisational learning strategy that answers what the business actually needs, what L&amp;D will and won't do, and how performance will be measured. A document leadership can read in twenty minutes and act on.</p></div>
-        <div class="cat-foot"><a class="cta" href="/#contact">Let's talk strategy</a><span class="ref">REF. A-03</span></div>
-      </article>
-      <article class="cat-item">
-        <div class="cat-head"><span><span class="swatch-mini" style="background:var(--sys-blue)"></span><strong>A-04</strong> · Capability</span><span>Workshops &amp; programmes</span></div>
-        <div class="cat-body"><h3>Strategic Thinking</h3><p>Workshops and programmes designed to build the strategic muscle of your L&amp;D team, so the work outlasts the engagement and your people stop being seen as order-takers.</p></div>
-        <div class="cat-foot"><a class="cta" href="/#contact">Ready to be strategic?</a><span class="ref">REF. A-04</span></div>
-      </article>
-    </div>
-
-    <!-- METHOD -->
-    <div class="section-header">
-      <h2>A method, not a methodology.</h2>
-      <p class="desc">Four phases. Each one ends with a decision, not a deliverable. We do not sell discovery. We do the work.</p>
+      <h2>How we work together.</h2>
+      <p class="desc">It's all tailored to your unique needs and situation. There's no pre-packaged offer or templated solutions.</p>
     </div>
     <div class="method">
-      <div class="method-step"><span class="stepnum">Step 01 / Diagnose</span><p>Interview the people doing the work. Audit the artefacts. Find what's actually slowing the team down, not what people think is slowing them down.</p><h4>Diagnose</h4></div>
-      <div class="method-step"><span class="stepnum">Step 02 / Decide</span><p>Agree what the team will do, won't do, and will stop doing. Cuts come before additions. Nothing new ships until something old is removed.</p><h4>Decide</h4></div>
-      <div class="method-step"><span class="stepnum">Step 03 / Design</span><p>Build the principles, the process, or the strategy. Document it in a form the team will actually use: short, plain, durable.</p><h4>Design</h4></div>
-      <div class="method-step"><span class="stepnum">Step 04 / Hand over</span><p>Leave the team capable of running it themselves. No retainer dependency. No recurring fees. If you need us again, it's because something changed.</p><h4>Hand over</h4></div>
+      <div class="method-step">
+        <span class="stepnum">Step 01 / Discuss</span>
+        <p>We have a 30 minute discovery call to talk through what you need. There's no cost or obligation. Just an exploration.</p>
+        <h4>Discuss</h4>
+      </div>
+      <div class="method-step">
+        <span class="stepnum">Step 02 / Plan</span>
+        <p>I give you a plan, including: what you get, the sequence of events, how long it takes and the price.</p>
+        <h4>Plan</h4>
+      </div>
+      <div class="method-step">
+        <span class="stepnum">Step 03 / Work together</span>
+        <p>If we're the right fit we start the work. It's collaborative. We co-design and work through it together. I guide you through the process and deliver work but the transformation is yours.</p>
+        <h4>Work together</h4>
+      </div>
+      <div class="method-step">
+        <span class="stepnum">Step 04 / Future plans</span>
+        <p>After the engagement I give you further recommendations and plans for the future. It's based on what we've done, what we've learned and covers how to continue the transformation of your team.</p>
+        <h4>Future plans</h4>
+      </div>
     </div>
 
-    <!-- CONTACT -->
     <ContactCTA />
   </main>
 </BaseLayout>
@@ -79,51 +74,44 @@ import ContactCTA from '../components/ContactCTA.astro';
   /* Hero + body: narrow column, like a post */
   .about { max-width: 760px; margin: 0 auto; padding: var(--s7) var(--pad-x) var(--s5); }
   .about-head { padding-bottom: var(--s5); border-bottom: 2px solid var(--ink); margin-bottom: var(--s5); }
-  .kicker { font-family: var(--font-mono); font-size: var(--t-mono); letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: var(--s2); }
   .about-head h1 {
-    font-family: var(--font-display); font-weight: 900; font-size: var(--t-display);
-    letter-spacing: -0.035em; line-height: 0.98; margin-bottom: var(--s3);
+    font-family: var(--font-display); font-weight: 900;
+    font-size: var(--t-display); letter-spacing: -0.035em; line-height: 0.98;
   }
-  .about-head .deck { font-size: var(--t-deck); line-height: 1.55; color: var(--ink-soft); max-width: 60ch; }
-  .about-body p { font-size: 18px; line-height: 1.7; margin-bottom: var(--s3); color: var(--ink); max-width: 60ch; }
 
-  /* Sections section sits at page max-width, not narrow column */
+  .about-body p {
+    font-size: 18px; line-height: 1.7;
+    margin-bottom: var(--s3); color: var(--ink);
+    max-width: 62ch;
+  }
+  .about-body h2 {
+    font-family: var(--font-display); font-weight: 900;
+    font-size: var(--t-h2); letter-spacing: -0.025em; line-height: 1.05;
+    margin: var(--s5) 0 var(--s3);
+  }
+  .about-body h3 {
+    font-family: var(--font-display); font-weight: 800;
+    font-size: var(--t-h3); letter-spacing: -0.015em; line-height: 1.1;
+    margin: var(--s5) 0 var(--s3);
+  }
+
+  /* Sections section sits at page max-width */
   .about-sections { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--pad-x); }
 
-  /* These mirror the homepage styles for the same components */
   .section-header { margin-top: var(--s7); padding-top: var(--s4); border-top: 2px solid var(--ink); }
   .section-header h2 { font-family: var(--font-display); font-weight: 900; font-size: var(--t-h2); letter-spacing: -0.025em; line-height: 1; }
-  .section-header .desc { margin-top: var(--s2); font-size: var(--t-body); line-height: 1.55; color: var(--ink-soft); max-width: 60ch; }
-
-  .metrics { margin-top: var(--s4); display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--s3); }
-  .metric { padding: var(--s3) var(--s2) 0; border-top: 2px solid var(--ink); }
-  .metric .figure { font-family: var(--font-display); font-weight: 900; font-size: 56px; letter-spacing: -0.03em; line-height: 1; }
-  .metric .figure .unit { font-size: 22px; font-weight: 500; color: var(--ink-soft); margin-left: 4px; }
-  .metric .mlabel { font-family: var(--font-mono); font-size: var(--t-mono-sm); letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); margin-top: var(--s2); line-height: 1.45; }
-
-  .catalogue { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); margin-top: var(--s4); }
-  .cat-item { background: var(--paper); padding: var(--s4) 28px 28px; display: grid; grid-template-rows: auto 1fr auto; gap: var(--s3); min-height: 280px; transition: background 0.2s; }
-  .cat-item:hover { background: var(--paper-2); }
-  .cat-head { display: flex; justify-content: space-between; align-items: baseline; font-family: var(--font-mono); font-size: var(--t-mono); letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-soft); }
-  .cat-head strong { color: var(--ink); font-weight: 700; }
-  .cat-head .swatch-mini { display: inline-block; width: 9px; height: 9px; border-radius: 50%; vertical-align: middle; margin-right: 7px; }
-  .cat-body h3 { font-family: var(--font-display); font-weight: 900; font-size: var(--t-h3); letter-spacing: -0.02em; line-height: 1.05; margin-bottom: 10px; }
-  .cat-body p { font-size: 14px; line-height: 1.55; color: var(--ink-soft); max-width: 46ch; }
-  .cat-foot { display: flex; justify-content: space-between; align-items: center; padding-top: var(--s2); border-top: 1px solid var(--line-soft); }
-  .cat-foot .cta { font-weight: 700; font-size: var(--t-small); letter-spacing: 0.02em; color: var(--ink); border-bottom: 1px solid var(--ink); padding-bottom: 3px; }
-  .cat-foot .cta:hover { color: var(--signal); border-color: var(--signal); }
-  .cat-foot .ref { font-family: var(--font-mono); font-size: var(--t-mono-sm); letter-spacing: 0.14em; color: var(--ink-faint); }
+  .section-header .desc { margin-top: var(--s2); font-size: var(--t-body); line-height: 1.55; color: var(--ink-soft); max-width: 60%; }
 
   .method { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); margin-top: var(--s4); border: 1px solid var(--line); }
-  .method-step { background: var(--paper); padding: var(--s4) 24px 24px; display: flex; flex-direction: column; gap: var(--s3); min-height: 260px; }
+  .method-step { background: var(--paper); padding: var(--s4) 24px 24px; display: flex; flex-direction: column; gap: var(--s3); min-height: 280px; }
   .method-step .stepnum { font-family: var(--font-mono); font-size: var(--t-mono-sm); letter-spacing: 0.16em; color: var(--ink-soft); text-transform: uppercase; }
   .method-step h4 { font-family: var(--font-display); font-weight: 900; font-size: 26px; letter-spacing: -0.02em; line-height: 1; margin-top: auto; }
   .method-step p { font-size: 14px; line-height: 1.55; color: var(--ink-soft); }
 
   @media (max-width: 900px) {
-    .metrics, .catalogue, .method { grid-template-columns: 1fr 1fr; }
+    .method { grid-template-columns: 1fr 1fr; }
   }
   @media (max-width: 600px) {
-    .metrics, .catalogue, .method { grid-template-columns: 1fr; }
+    .method { grid-template-columns: 1fr; }
   }
 </style>

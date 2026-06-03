@@ -1,27 +1,237 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactCTA from '../components/ContactCTA.astro';
+import { SERVICES, refFor } from '../data/services-data';
 ---
-<BaseLayout title="Services · Strategic L&D" description="Four products, four outcomes. Each engagement is a defined service: scoped, priced, and built to be handed over." current="services">
-  <main class="wrap">
-    <header class="head">
-      <h1>Four <span class="accent">services</span>.<br />Four outcomes.</h1>
-      <p class="deck">Each engagement is a defined service: scoped, priced, and built to be handed over. The homepage carries summaries of all four. A fuller page lives here.</p>
+<BaseLayout
+  title="Services · Strategic L&D"
+  description="How I help depends on your unique situation. Established services, but no boilerplate or one-size-fits-all products."
+  current="services"
+>
+  <article class="srv-hero">
+    <header class="hero-head">
+      <h1>There are many ways to <span class="accent">transform</span> your L&amp;D function.</h1>
     </header>
-    <section class="body">
-      <p>Placeholder. The full service descriptions, when they exist, will replace this paragraph. Until then, refer to the summaries on the homepage.</p>
-      <p><a href="/#services-section" class="link">See the homepage summaries →</a></p>
-      <p><a href="/#contact" class="link">Contact us about a piece of work →</a></p>
-    </section>
+    <div class="hero-body">
+      <p>How I help depends on your unique situation and plans for the future. There are established services and programmes on this page, but there's no boilerplate deliverables or "one size fits all" products. That won't help.</p>
+    </div>
+  </article>
+
+  <main class="srv-sections">
+
+    <!-- ALL SERVICES (rendered from the shared data file) -->
+    <div class="section-header">
+      <h2>What we can work on <span class="accent">together</span>?</h2>
+      <p class="desc">There's a lot that can be done to help your L&amp;D team become more strategic. It's usually a combination of some, or all, of the activities below. Whatever we do involves work from both of us. It's your team, it's your transformation. I co-design and collaborate with you and support you through embedding it all within your team.</p>
+    </div>
+
+    <ul class="services">
+      {SERVICES.map((s, i) => (
+        <li>
+          <article class="service">
+            <div class="svc-title-block">
+              <h3 class="service-title">{s.title}</h3>
+              <p class="service-desc">{s.description}</p>
+            </div>
+            <div class="svc-foot">
+              <a class="service-link" href="/#contact">Let's talk about it <span class="arrow">→</span></a>
+              <span class="service-ref">{refFor(i)}</span>
+            </div>
+          </article>
+        </li>
+      ))}
+    </ul>
+
+    <!-- TWO WAYS TO ENGAGE -->
+    <div class="section-header">
+      <h2><span class="accent">Two ways</span> to engage.</h2>
+      <p class="desc">There's a couple of ways you can bring me in to help. We usually work out the approach during a discovery call.</p>
+    </div>
+
+    <div class="engage">
+      <article class="engage-card">
+        <div class="engage-head">
+          <span class="engage-dot" style="background: var(--sys-blue)"></span>
+          <span>For executives or leaders in L&amp;D, Capability and Enablement with budget for consulting</span>
+        </div>
+        <div class="engage-body">
+          <h3>Simple Strategy</h3>
+          <p>I work directly with you on strategy, positioning, supporting capabilities, etc. We start with a 30 minute call to work out what to work on. You take me through your challenges and aspirations. All confidential and no obligation. After the call I'll send through a plan with a list of actions, timelines and a quote.</p>
+        </div>
+        <div class="engage-foot">
+          <a class="engage-cta" href="/#contact">Start a conversation <span class="arrow">→</span></a>
+          <span class="engage-ref">REF. E-01</span>
+        </div>
+      </article>
+
+      <article class="engage-card">
+        <div class="engage-head">
+          <span class="engage-dot" style="background: var(--sys-yellow)"></span>
+          <span>For L&amp;D, Capability and Enablement leaders with no distinct budget for consulting</span>
+        </div>
+        <div class="engage-body">
+          <h3>Sneaky Strategy</h3>
+          <p>Sometimes it's hard to justify carving out budget for strategic consulting. A lot of my work involves being brought in to help deliver a current project and provide advice on the side. I get to see things operate in real time and see issues and opportunities first hand. My consulting services become a small line item next to project delivery fees. Two birds, one stone.</p>
+        </div>
+        <div class="engage-foot">
+          <a class="engage-cta" href="/#contact">Start a conversation <span class="arrow">→</span></a>
+          <span class="engage-ref">REF. E-02</span>
+        </div>
+      </article>
+    </div>
+
+    <ContactCTA />
   </main>
 </BaseLayout>
 
 <style>
-  .wrap { max-width: var(--maxw); margin: 0 auto; padding: var(--s7) var(--pad-x) var(--s6); }
-  .head { padding-bottom: var(--s5); border-bottom: 2px solid var(--ink); margin-bottom: var(--s5); }
-  .head h1 { font-family: var(--font-display); font-weight: 900; font-size: var(--t-display); letter-spacing: -0.035em; line-height: 0.95; margin-bottom: var(--s3); }
-  .head .deck { font-size: var(--t-deck); line-height: 1.55; color: var(--ink-soft); max-width: 60ch; }
-  .body { max-width: 60ch; }
-  .body p { font-size: 18px; line-height: 1.7; margin-bottom: var(--s3); }
-  .link { border-bottom: 1px solid var(--ink); padding-bottom: 2px; }
-  .link:hover { color: var(--signal); border-color: var(--signal); }
+  /* Hero: narrow column, like a post. Heading sits in its own header with
+     the bottom rule under it; body text follows below the line. */
+  .srv-hero { max-width: 760px; margin: 0 auto; padding: var(--s7) var(--pad-x) var(--s5); }
+  .hero-head { padding-bottom: var(--s5); border-bottom: 2px solid var(--ink); margin-bottom: var(--s5); }
+  .hero-head h1 {
+    font-family: var(--font-display); font-weight: 900;
+    font-size: var(--t-display); letter-spacing: -0.035em; line-height: 0.98;
+  }
+  .hero-body p {
+    font-size: 18px; line-height: 1.7; color: var(--ink);
+    max-width: 62ch;
+    margin-bottom: var(--s3);
+  }
+
+  /* Sections sit at page max-width */
+  .srv-sections { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--pad-x); }
+
+  .section-header { margin-top: var(--s7); padding-top: var(--s4); border-top: 2px solid var(--ink); }
+  .section-header h2 { font-family: var(--font-display); font-weight: 900; font-size: var(--t-h2); letter-spacing: -0.025em; line-height: 1; }
+  .section-header .desc { margin-top: var(--s2); font-size: var(--t-body); line-height: 1.55; color: var(--ink-soft); max-width: 60%; }
+
+  /* Service cards — matches the ChallengeMatcher card style */
+  .services {
+    list-style: none; padding: 0;
+    margin-top: var(--s4);
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: var(--s3);
+  }
+  .services > li { display: flex; }
+  .service {
+    flex: 1;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    padding: 28px 28px 24px;
+    display: flex; flex-direction: column;
+    min-height: 240px;
+    transition: background 0.2s;
+  }
+  .service:hover { background: var(--paper-2); }
+  .svc-title-block { padding-bottom: var(--s3); }
+  .service-title {
+    font-family: var(--font-display); font-weight: 900;
+    font-size: 26px; letter-spacing: -0.02em; line-height: 1.05;
+    margin-bottom: 12px;
+  }
+  .service-desc {
+    font-size: 15px; line-height: 1.55; color: var(--ink-soft);
+    max-width: 50ch;
+  }
+  .svc-foot {
+    margin-top: auto;
+    padding-top: var(--s2);
+    border-top: 1px solid var(--line-soft);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .service-link {
+    font-family: var(--font-display); font-weight: 700;
+    font-size: 14px; letter-spacing: 0.01em;
+    color: var(--ink);
+    border-bottom: 1px solid var(--ink); padding-bottom: 2px;
+    display: inline-flex; align-items: center; gap: 6px;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .service-link:hover { color: var(--signal); border-color: var(--signal); }
+  .service-link .arrow { display: inline-block; transition: transform 0.18s ease; }
+  .service-link:hover .arrow { transform: translateX(3px); }
+  .service-ref {
+    font-family: var(--font-mono); font-size: 10px;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+
+  /* Engagement cards — catalogue-style structure:
+       1) Head row: coloured dot + audience tag in mono
+       2) Body: title + paragraph
+       3) Foot: CTA + REF code
+     Each section separated by a 1px hairline. */
+  .engage {
+    margin-top: var(--s4);
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: var(--s3);
+  }
+  .engage-card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    padding: 28px 28px 24px;
+    display: flex; flex-direction: column;
+    transition: background 0.2s;
+  }
+  .engage-card:hover { background: var(--paper-2); }
+
+  .engage-head {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding-bottom: var(--s3);
+    border-bottom: 1px solid var(--line-soft);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    line-height: 1.55;
+  }
+  .engage-dot {
+    flex-shrink: 0;
+    display: inline-block;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    margin-top: 2px;
+  }
+
+  .engage-body {
+    padding: var(--s3) 0 var(--s4);
+  }
+  .engage-card h3 {
+    font-family: var(--font-display); font-weight: 900;
+    font-size: 32px; letter-spacing: -0.025em; line-height: 1.0;
+    margin-bottom: var(--s3);
+  }
+  .engage-card p {
+    font-size: 15px; line-height: 1.6; color: var(--ink);
+    max-width: 50ch;
+  }
+
+  .engage-foot {
+    margin-top: auto;
+    padding-top: var(--s2);
+    border-top: 1px solid var(--line-soft);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .engage-cta {
+    font-family: var(--font-display); font-weight: 700;
+    font-size: 14px; letter-spacing: 0.01em;
+    color: var(--ink);
+    border-bottom: 1px solid var(--ink); padding-bottom: 2px;
+    display: inline-flex; align-items: center; gap: 6px;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .engage-cta:hover { color: var(--signal); border-color: var(--signal); }
+  .engage-cta .arrow { display: inline-block; transition: transform 0.18s ease; }
+  .engage-cta:hover .arrow { transform: translateX(3px); }
+  .engage-ref {
+    font-family: var(--font-mono); font-size: 10px;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+
+  @media (max-width: 900px) {
+    .services, .engage { grid-template-columns: 1fr; }
+  }
 </style>
