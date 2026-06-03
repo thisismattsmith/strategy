@@ -4,6 +4,6 @@ import sitemap from '@astrojs/sitemap';
 
 // Set this to your production URL before deploying.
 export default defineConfig({
-  site: 'https://thisismattsmith.com',
+  site: 'https://strategy.thisismattsmith.com',
   integrations: [mdx(), sitemap()],
 });
