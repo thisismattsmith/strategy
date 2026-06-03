@@ -1,0 +1,120 @@
+---
+// thank-you.astro — standalone minimal confirmation page after the contact form.
+// Netlify redirects here on successful submission of the form on the homepage.
+// Intentionally no Header / Footer chrome — just the message and an escape.
+import '../styles/tokens.css';
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <title>Thanks · Strategic L&amp;D</title>
+  <meta name="description" content="Message received. I'll be in touch soon." />
+  <meta name="robots" content="noindex" />
+</head>
+<body>
+  <main class="ty">
+    <a href="/" class="brand" aria-label="Strategic L&amp;D — Home">
+      <span class="swatch"></span> Strategic L&amp;D
+    </a>
+
+    <div class="block">
+      <h1>Thanks.</h1>
+      <p class="msg">Your message is in. I'll be in touch soon.</p>
+
+      <p class="meanwhile">
+        In the meantime, follow along on
+        <a href="https://www.linkedin.com/company/strategicland" target="_blank" rel="noopener">LinkedIn</a>
+        if you don't already.
+      </p>
+
+      <div class="actions">
+        <a href="/" class="back">← Back to home</a>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
+
+<style>
+  body {
+    /* override the default body to centre content vertically */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: var(--s4);
+  }
+
+  .ty {
+    max-width: 520px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: var(--s6);
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 18px;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    align-self: flex-start;
+  }
+  .brand .swatch {
+    width: 12px;
+    height: 12px;
+    background: var(--signal);
+    border-radius: 50%;
+  }
+
+  .block { display: flex; flex-direction: column; gap: var(--s4); }
+
+  .ty h1 {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: clamp(56px, 8vw, 96px);
+    letter-spacing: -0.035em;
+    line-height: 0.95;
+  }
+
+  .msg {
+    font-size: var(--t-deck);
+    line-height: 1.55;
+    color: var(--ink);
+    max-width: 40ch;
+  }
+
+  .meanwhile {
+    font-size: var(--t-body);
+    line-height: 1.6;
+    color: var(--ink-soft);
+    max-width: 40ch;
+  }
+  .meanwhile a {
+    color: var(--ink);
+    border-bottom: 1px solid var(--signal);
+    padding-bottom: 1px;
+    transition: color 0.15s;
+  }
+  .meanwhile a:hover { color: var(--signal); }
+
+  .actions { margin-top: var(--s2); }
+  .back {
+    display: inline-block;
+    color: var(--ink);
+    font-weight: 700;
+    font-size: var(--t-small);
+    letter-spacing: 0.04em;
+    border-bottom: 1px solid var(--ink);
+    padding-bottom: 4px;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .back:hover { color: var(--signal); border-color: var(--signal); }
+</style>

@@ -1,0 +1,114 @@
+---
+// 404.astro — Astro picks this up automatically as the static 404 page in the build.
+// Netlify serves it for any unmatched route.
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout
+  title="Not found · Strategic L&D"
+  description="The page you're looking for doesn't exist."
+  current=""
+>
+  <main class="nf">
+    <p class="code">404</p>
+    <h1>Nothing here.</h1>
+    <p class="lede">Probably my fault. The page you're after either moved, was renamed, or never existed.</p>
+
+    <hr class="rule" />
+
+    <div class="exits">
+      <a href="/" class="exit">
+        <span class="exit-num">01</span>
+        <span class="exit-label">Home</span>
+        <span class="exit-arrow">→</span>
+      </a>
+      <a href="/blog" class="exit">
+        <span class="exit-num">02</span>
+        <span class="exit-label">Field Notes</span>
+        <span class="exit-arrow">→</span>
+      </a>
+      <a href="/services" class="exit">
+        <span class="exit-num">03</span>
+        <span class="exit-label">Services</span>
+        <span class="exit-arrow">→</span>
+      </a>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .nf {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: var(--s7) var(--pad-x) var(--s7);
+  }
+
+  .nf .code {
+    font-family: var(--font-mono);
+    font-size: var(--t-mono);
+    letter-spacing: 0.20em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: var(--s3);
+  }
+
+  .nf h1 {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: var(--t-display);
+    letter-spacing: -0.035em;
+    line-height: 0.95;
+    margin-bottom: var(--s4);
+  }
+
+  .nf .lede {
+    font-size: var(--t-deck);
+    line-height: 1.55;
+    color: var(--ink-soft);
+    max-width: 52ch;
+    margin-bottom: var(--s5);
+  }
+
+  .nf .rule {
+    border: 0;
+    border-top: 2px solid var(--ink);
+    margin: 0 0 var(--s5);
+  }
+
+  .exits {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .exit {
+    display: grid;
+    grid-template-columns: 40px 1fr auto;
+    align-items: baseline;
+    gap: 16px;
+    padding: 22px 0;
+    border-bottom: 1px dashed var(--line-soft);
+    font-size: var(--t-deck);
+    color: var(--ink);
+    transition: color 0.15s;
+  }
+  .exit:first-child { border-top: 1px dashed var(--line-soft); }
+  .exit .exit-num {
+    font-family: var(--font-mono);
+    font-size: var(--t-mono);
+    color: var(--ink-faint);
+    font-weight: 500;
+    letter-spacing: 0.04em;
+  }
+  .exit .exit-label {
+    font-family: var(--font-display);
+    font-weight: 800;
+    letter-spacing: -0.015em;
+  }
+  .exit .exit-arrow {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--ink-faint);
+    transition: transform 0.2s ease, color 0.15s;
+  }
+  .exit:hover { color: var(--signal); }
+  .exit:hover .exit-arrow { transform: translateX(4px); color: var(--signal); }
+</style>
