@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Services · Strategic L&D" description="Four products, four outcomes. Each engagement is a defined service: scoped, priced, and built to be handed over." current="services">
+  <main class="wrap">
+    <header class="head">
+      <h1>Four <span class="accent">services</span>.<br />Four outcomes.</h1>
+      <p class="deck">Each engagement is a defined service: scoped, priced, and built to be handed over. The homepage carries summaries of all four. A fuller page lives here.</p>
+    </header>
+    <section class="body">
+      <p>Placeholder. The full service descriptions, when they exist, will replace this paragraph. Until then, refer to the summaries on the homepage.</p>
+      <p><a href="/#services-section" class="link">See the homepage summaries →</a></p>
+      <p><a href="/#contact" class="link">Contact us about a piece of work →</a></p>
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: var(--s7) var(--pad-x) var(--s6); }
+  .head { padding-bottom: var(--s5); border-bottom: 2px solid var(--ink); margin-bottom: var(--s5); }
+  .head h1 { font-family: var(--font-display); font-weight: 900; font-size: var(--t-display); letter-spacing: -0.035em; line-height: 0.95; margin-bottom: var(--s3); }
+  .head .deck { font-size: var(--t-deck); line-height: 1.55; color: var(--ink-soft); max-width: 60ch; }
+  .body { max-width: 60ch; }
+  .body p { font-size: 18px; line-height: 1.7; margin-bottom: var(--s3); }
+  .link { border-bottom: 1px solid var(--ink); padding-bottom: 2px; }
+  .link:hover { color: var(--signal); border-color: var(--signal); }
+</style>

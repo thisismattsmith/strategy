@@ -8,7 +8,9 @@ const blog = defineCollection({
     description: z.string(),
     pubDate: z.coerce.date(),
     updatedDate: z.coerce.date().optional(),
-    principle: z.number().optional(),       // which of the 10 principles this maps to
+    note_number: z.number().int().positive(),  // required — surfaces in post header, blog index, carousel, OG
+    linkedin_url: z.string().url().optional(),  // optional — if set, post footer shows "Comment on LinkedIn" link
+    principle: z.number().optional(),          // optional — links post to a principle on the homepage
     category: z.string().default('Practice'),
     draft: z.boolean().default(false),
   }),

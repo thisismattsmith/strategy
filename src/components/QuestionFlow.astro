@@ -1,22 +1,21 @@
 ---
-// QuestionFlow.astro — interactive vertical flowchart (library component).
-// Click a node to expand its detail; the selected node takes the signal accent.
-// Hydration: the inline <script> runs on the client. When used in MDX, add a
-// client directive is NOT required for plain Astro components with inline scripts —
-// Astro ships this <script> automatically. (Kept dependency-free: no UI framework.)
+// QuestionFlow.astro, interactive vertical flowchart (library component).
+// Designed to sit INSIDE <Interactive>. Click a node to expand its detail;
+// the selected node takes a thick orange left-bar (the title-underline emphasis
+// device, applied as an edge). Dependency-free: inline script, no UI framework.
 //
 // Props:
-//   items?: { q: string; detail: string }[]   // override the default 8 questions
+//   items? : { q: string; detail: string }[]   // override the default 8 questions
 
 const defaultItems = [
-  { q: 'Who do we help?',                    detail: "Name the actual people — roles, teams, the work they're trying to do. 'The business' is not an answer." },
+  { q: 'Who do we help?',                    detail: "Name the actual people: roles, teams, the work they're trying to do. 'The business' is not an answer." },
   { q: 'What value do we bring them?',       detail: 'Not activity delivered. The change in performance they actually feel afterward.' },
   { q: 'What do we do?',                     detail: 'In one sentence a stakeholder would repeat back to a colleague correctly.' },
   { q: 'What is our competition?',           detail: 'Doing nothing, the manager who "just shows them," and the LMS gathering dust all count.' },
-  { q: 'How do we differentiate ourselves?', detail: "The thing you do that the alternatives can't — and won't. If there isn't one, that's the finding." },
-  { q: 'What proof do we have?',             detail: 'Evidence the business recognises as evidence — not completion rates or satisfaction scores.' },
+  { q: 'How do we differentiate ourselves?', detail: "The thing you do that the alternatives can't, and won't. If there isn't one, that's the finding." },
+  { q: 'What proof do we have?',             detail: 'Evidence the business recognises as evidence, not completion rates or satisfaction scores.' },
   { q: 'What can we promise?',               detail: 'A promise you can keep every time, not a best case. The narrower, the more credible.' },
-  { q: 'What do we ask them to do next?',    detail: 'One clear next step. A position is useless if it does not end in an action. (Eighth question — confirm wording.)' },
+  { q: 'What do we ask them to do next?',    detail: 'One clear next step. A position is useless if it does not end in an action. (Eighth question, confirm wording.)' },
 ];
 
 const { items = defaultItems } = Astro.props;
@@ -25,95 +24,111 @@ const { items = defaultItems } = Astro.props;
   {items.map((item, i) => (
     <>
       <button
-        class:list={["qnode", { start: i === 0 }]}
+        class="qnode"
         role="listitem"
         aria-expanded="false"
         data-qnode
       >
         <span class="idx">{String(i + 1).padStart(2, '0')}</span>
         <span class="q">{item.q}</span>
-        <span class="chev" aria-hidden="true">+</span>
+        <span class="ctrl" aria-hidden="true">
+          <span class="bar bar-h"></span>
+          <span class="bar bar-v"></span>
+        </span>
         <span class="detail" hidden>{item.detail}</span>
       </button>
-      {i < items.length - 1 && <span class="arrow" aria-hidden="true"></span>}
+      {i < items.length - 1 && (
+        <span class="connector" aria-hidden="true">
+          <span class="line"></span>
+          <span class="head"></span>
+        </span>
+      )}
     </>
   ))}
 </div>
 
 <style>
-  .qflow { display: flex; flex-direction: column; align-items: center; gap: 0; max-width: 560px; margin: var(--s4) auto; }
+  .qflow { display: flex; flex-direction: column; align-items: stretch; gap: 0; max-width: 560px; margin: 0 auto; }
 
+  /* ---------- NODE ---------- */
   .qnode {
     width: 100%; text-align: left; cursor: pointer;
-    background: var(--paper); border: 1px solid var(--line);
-    padding: 18px 52px 18px 24px; position: relative;
-    display: grid; grid-template-columns: 40px 1fr; gap: 16px; align-items: baseline;
+    background: var(--paper); border: 1px solid var(--ink);
+    padding: 20px 56px 20px 26px; position: relative;
+    display: grid; grid-template-columns: 44px 1fr; gap: 16px; align-items: baseline;
     font-family: inherit; color: var(--ink);
-    transition: background 0.15s, border-color 0.15s;
+    transition: background 0.15s;
   }
   .qnode:hover { background: var(--paper-2); }
 
   .qnode .idx {
     font-family: var(--font-mono); font-size: var(--t-mono); color: var(--ink-faint);
     letter-spacing: 0.04em; display: flex; align-items: center; gap: 8px;
+    transition: color 0.15s;
   }
-  .qnode .idx::before { content: ""; width: 14px; height: 1px; background: var(--ink); }
+  .qnode .idx::before { content: ""; width: 16px; height: 2px; background: var(--ink); transition: background 0.15s; }
   .qnode .q {
-    font-family: var(--font-display); font-weight: 800; font-size: 18px;
+    font-family: var(--font-display); font-weight: 800; font-size: 19px;
     letter-spacing: -0.01em; line-height: 1.2;
   }
-  .qnode .chev {
-    position: absolute; right: 20px; top: 18px;
-    font-family: var(--font-mono); font-size: 20px; color: var(--ink-faint);
-    transition: transform 0.2s ease, color 0.15s;
-  }
   .qnode .detail {
-    grid-column: 2 / 3; font-size: 15px; line-height: 1.55; color: var(--ink-soft);
-    margin-top: 12px;
+    grid-column: 2 / 3; font-size: 15px; line-height: 1.6; color: var(--ink-soft);
+    margin-top: 14px; max-width: 46ch;
   }
 
-  /* the first node hints the accent at rest */
-  .qnode.start { border-color: var(--ink); }
-  .qnode.start::before {
-    content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--signal);
-    opacity: 0.4; transition: opacity 0.15s;
+  /* ---------- CONTROL AFFORDANCE (framed +, like a machine button) ---------- */
+  .ctrl {
+    position: absolute; right: 18px; top: 18px;
+    width: 28px; height: 28px; border: 2px solid var(--ink);
+    display: inline-flex; align-items: center; justify-content: center;
+    transition: border-color 0.15s, background 0.15s;
   }
+  .ctrl .bar { position: absolute; background: var(--ink); transition: background 0.15s, transform 0.2s ease, opacity 0.2s ease; }
+  .ctrl .bar-h { width: 12px; height: 2px; }
+  .ctrl .bar-v { width: 2px;  height: 12px; }
 
-  /* SELECTED state — orange accent + open detail */
+  /* ---------- SELECTED STATE — thick orange left-bar (title-underline device) ---------- */
   .qnode[aria-expanded="true"] {
-    border-color: var(--signal); background: var(--paper);
+    background: var(--paper);
+    padding-left: 32px;
   }
   .qnode[aria-expanded="true"]::before {
-    content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--signal); opacity: 1;
+    content: ""; position: absolute; left: -1px; top: -1px; bottom: -1px; width: 10px;
+    background: var(--signal); opacity: 1;
   }
+  .qnode[aria-expanded="true"] .idx { color: var(--ink); }
   .qnode[aria-expanded="true"] .idx::before { background: var(--signal); }
-  .qnode[aria-expanded="true"] .chev { transform: rotate(45deg); color: var(--signal); }
+  .qnode[aria-expanded="true"] .ctrl { border-color: var(--signal); }
+  .qnode[aria-expanded="true"] .ctrl .bar { background: var(--signal); }
+  .qnode[aria-expanded="true"] .ctrl .bar-v { transform: scaleY(0); opacity: 0; }
 
-  /* connector arrow between nodes */
-  .arrow { width: 1px; height: 28px; background: var(--ink); position: relative; }
-  .arrow::after {
-    content: ""; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
-    border-left: 4px solid transparent; border-right: 4px solid transparent; border-top: 6px solid var(--ink);
+  /* ---------- CONNECTOR (mono index-tick, not a generic triangle) ---------- */
+  .connector { height: 32px; position: relative; display: flex; justify-content: center; }
+  .connector .line { width: 2px; background: var(--ink); height: 100%; }
+  .connector .head {
+    position: absolute; bottom: 4px; left: 50%;
+    width: 10px; height: 10px; border-right: 2px solid var(--ink); border-bottom: 2px solid var(--ink);
+    transform: translateX(-50%) rotate(45deg);
   }
 
   :global(.qnode .detail[hidden]) { display: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ctrl .bar { transition: none; }
+  }
 </style>
 
 <script>
-  // Progressive enhancement: nodes are plain buttons until JS runs.
   document.querySelectorAll('[data-qnode]').forEach((node) => {
     node.addEventListener('click', () => {
       const isOpen = node.getAttribute('aria-expanded') === 'true';
-      // single-open accordion: close siblings
       node.closest('.qflow')?.querySelectorAll('[data-qnode]').forEach((n) => {
         n.setAttribute('aria-expanded', 'false');
-        const d = n.querySelector('.detail');
-        if (d) d.setAttribute('hidden', '');
+        n.querySelector('.detail')?.setAttribute('hidden', '');
       });
       if (!isOpen) {
         node.setAttribute('aria-expanded', 'true');
-        const d = node.querySelector('.detail');
-        if (d) d.removeAttribute('hidden');
+        node.querySelector('.detail')?.removeAttribute('hidden');
       }
     });
   });

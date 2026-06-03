@@ -1,13 +1,15 @@
 ---
 import BaseLayout from './BaseLayout.astro';
-const { title, description, pubDate, category = 'Practice', principle, minutes } = Astro.props;
+import Availability from '../components/Availability.astro';
+const { title, description, pubDate, category = 'Practice', note_number, linkedin_url, principle, minutes } = Astro.props;
 const date = new Date(pubDate).toLocaleDateString('en-AU', { year: 'numeric', month: 'long', day: 'numeric' });
+const noteLabel = `Field Note No. ${String(note_number).padStart(2, '0')}`;
 ---
-<BaseLayout title={`${title} — Strategic L&D`} description={description} current="blog">
+<BaseLayout title={`${title} · Strategic L&D`} description={description} current="blog">
   <article class="post">
     <header class="post-head">
       <div class="meta">
-        <span class="num">{principle ? `Principle ${String(principle).padStart(2, '0')}` : 'Field note'}</span>
+        <span class="num">{noteLabel}</span>
         <span class="sep">·</span>
         <span>{category}</span>
         <span class="sep">·</span>
@@ -21,9 +23,15 @@ const date = new Date(pubDate).toLocaleDateString('en-AU', { year: 'numeric', mo
     </div>
     <footer class="post-foot">
       <a href="/blog" class="back">← All notes</a>
-      <a href="/#commission" class="btn-secondary">Commission a piece of work →</a>
+      {linkedin_url && (
+        <a href={linkedin_url} target="_blank" rel="noopener" class="btn-secondary">Comment on LinkedIn →</a>
+      )}
     </footer>
   </article>
+
+  <div class="post-availability">
+    <Availability />
+  </div>
 </BaseLayout>
 
 <style>
@@ -61,10 +69,25 @@ const date = new Date(pubDate).toLocaleDateString('en-AU', { year: 'numeric', mo
   }
   .prose :global(hr) { border: none; border-top: 1px dashed var(--line-soft); margin: var(--s5) 0; }
 
+  /* Make interactive elements wider than the 760px text column.
+     Text stays narrow; interactives can breathe up to ~1080px on large screens.
+     On narrower viewports, fall back gracefully to full column width. */
+  .prose :global(.interactive) {
+    /* Extend up to 160px each side, but never beyond the viewport's padding edge */
+    --ext: clamp(0px, calc((100vw - 760px - var(--pad-x) * 2) / 2), 160px);
+    width: calc(100% + 2 * var(--ext));
+    margin-left: calc(-1 * var(--ext));
+    margin-right: calc(-1 * var(--ext));
+  }
+
   .post-foot {
     margin-top: var(--s7); padding-top: var(--s4); border-top: 2px solid var(--ink);
     display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--s3);
   }
   .back { font-family: var(--font-mono); font-size: var(--t-small); letter-spacing: 0.08em; color: var(--ink-soft); }
   .back:hover { color: var(--ink); }
+
+  /* Availability block sits OUTSIDE the narrow .post column so it spans
+     the page's regular max-width (consistent with homepage). */
+  .post-availability { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--pad-x) var(--s6); }
 </style>

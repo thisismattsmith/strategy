@@ -1,5 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Availability from '../components/Availability.astro';
+import ContactCTA from '../components/ContactCTA.astro';
 import { getCollection } from 'astro:content';
 
 const posts = (await getCollection('blog', ({ data }) => !data.draft))
@@ -27,76 +29,51 @@ const postByPrinciple = new Map(
   <main>
     <!-- HERO -->
     <section class="hero">
-      <div class="id">
-        <span><strong>001</strong> · Strategy Design Office</span>
-        <span>For Learning &amp; Development teams</span>
-      </div>
       <h1>L&amp;D teams do their best work when they are <span class="accent">strategic</span>.</h1>
       <p class="deck">
-        A consultancy for L&amp;D teams that want to be <strong>more efficient and more strategic</strong>. We help you cut what isn't working, sharpen what is, and operate with a point of view your business actually values. <strong>One engagement, one outcome — handed over for you to run yourselves.</strong>
+        A consultancy for L&amp;D teams that want to be <strong>more efficient and more strategic</strong>. We help you cut what isn't working, sharpen what is, and operate with a point of view your business actually values. <strong>One engagement, one outcome, handed over for you to run yourselves.</strong>
       </p>
       <div class="actions">
-        <a href="/#commission" class="btn-primary">Commission</a>
-        <a href="/catalogue" class="btn-secondary">See the catalogue →</a>
+        <a href="/#contact" class="btn-primary">Contact</a>
+        <a href="/services" class="btn-secondary">See our services →</a>
       </div>
     </section>
 
     <!-- AVAILABILITY -->
-    <div class="section-header">
-      <span class="num">002 · Availability</span>
-      <h2>Two engagements per quarter. No more.</h2>
-      <p class="desc">The work is done by one person — the same person who did it in-house before consulting on it. Capacity is deliberately limited so each engagement gets the attention it needs.</p>
-    </div>
-    <div class="availability">
-      <div class="col">
-        <div class="head">Current status</div>
-        <div class="status"><span class="dot"></span> Accepting Q3 2026</div>
-        <p>Most engagements begin with a thirty-minute call. No deck, no discovery package, no obligation.</p>
-      </div>
-      <div class="col">
-        <div class="head">Capacity</div>
-        <div class="metabox"><strong>Two</strong> engagements / quarter<br /><strong>Zero</strong> retainers required<br /><strong>≤ 2</strong> working days to reply</div>
-      </div>
-      <div class="col">
-        <div class="head">Operating</div>
-        <div class="metabox"><strong>Wadawurrung Country</strong><br />Australia<br />Global · Virtual</div>
-      </div>
-    </div>
+    <Availability />
 
-    <!-- CATALOGUE -->
+    <!-- SERVICES -->
     <div class="section-header">
-      <span class="num">003 · Catalogue</span>
-      <h2>Four products. Four outcomes.</h2>
+      <h2>Four services. Four outcomes.</h2>
       <p class="desc">Each engagement is a defined product: scoped, priced, and built to be handed over. You commission one. We deliver it. You run it.</p>
     </div>
     <div class="catalogue">
       <article class="cat-item">
         <div class="cat-head"><span><span class="swatch-mini" style="background:var(--signal)"></span><strong>A-01</strong> · Foundations</span><span>2–3 weeks</span></div>
-        <div class="cat-body"><h3>Design Principles</h3><p>A short engagement to help your team articulate the principles that govern your L&amp;D work — so future decisions about scope, format, and quality become faster and more consistent.</p></div>
-        <div class="cat-foot"><a class="cta" href="/#commission">Create your design principles</a><span class="ref">REF. A-01</span></div>
+        <div class="cat-body"><h3>Design Principles</h3><p>A short engagement to help your team articulate the principles that govern your L&amp;D work, so future decisions about scope, format, and quality become faster and more consistent.</p></div>
+        <div class="cat-foot"><a class="cta" href="/#contact">Create your design principles</a><span class="ref">REF. A-01</span></div>
       </article>
       <article class="cat-item">
         <div class="cat-head"><span><span class="swatch-mini" style="background:var(--sys-yellow)"></span><strong>A-02</strong> · Operations</span><span>4–8 weeks</span></div>
-        <div class="cat-body"><h3>Process Design</h3><p>A review and redesign of your L&amp;D operating processes — intake, design, build, review, deployment. The team ships better work in less time, with less rework, and no rituals dressed up as method.</p></div>
-        <div class="cat-foot"><a class="cta" href="/#commission">Redesign the process</a><span class="ref">REF. A-02</span></div>
+        <div class="cat-body"><h3>Process Design</h3><p>A review and redesign of your L&amp;D operating processes: intake, design, build, review, deployment. The team ships better work in less time, with less rework, and no rituals dressed up as method.</p></div>
+        <div class="cat-foot"><a class="cta" href="/#contact">Redesign the process</a><span class="ref">REF. A-02</span></div>
       </article>
       <article class="cat-item">
         <div class="cat-head"><span><span class="swatch-mini" style="background:var(--sys-green)"></span><strong>A-03</strong> · Strategy</span><span>6–12 weeks</span></div>
         <div class="cat-body"><h3>Learning Strategy</h3><p>An organisational learning strategy that answers what the business actually needs, what L&amp;D will and won't do, and how performance will be measured. A document leadership can read in twenty minutes and act on.</p></div>
-        <div class="cat-foot"><a class="cta" href="/#commission">Let's talk strategy</a><span class="ref">REF. A-03</span></div>
+        <div class="cat-foot"><a class="cta" href="/#contact">Let's talk strategy</a><span class="ref">REF. A-03</span></div>
       </article>
       <article class="cat-item">
         <div class="cat-head"><span><span class="swatch-mini" style="background:var(--sys-blue)"></span><strong>A-04</strong> · Capability</span><span>Workshops &amp; programmes</span></div>
-        <div class="cat-body"><h3>Strategic Thinking</h3><p>Workshops and programmes designed to build the strategic muscle of your L&amp;D team — so the work outlasts the engagement and your people stop being seen as order-takers.</p></div>
-        <div class="cat-foot"><a class="cta" href="/#commission">Ready to be strategic?</a><span class="ref">REF. A-04</span></div>
+        <div class="cat-body"><h3>Strategic Thinking</h3><p>Workshops and programmes designed to build the strategic muscle of your L&amp;D team, so the work outlasts the engagement and your people stop being seen as order-takers.</p></div>
+        <div class="cat-foot"><a class="cta" href="/#contact">Ready to be strategic?</a><span class="ref">REF. A-04</span></div>
       </article>
     </div>
 
     <!-- PRINCIPLES -->
     <div class="section-header" id="principles">
-      <span class="num">004 · Principles</span>
       <h2>Ten principles behind the work.</h2>
-      <p class="desc">The point of view that runs through every engagement. Each one is written up as a short field note — practice, not theory.</p>
+      <p class="desc">The point of view that runs through every engagement. Each one is written up as a short field note. Practice, not theory.</p>
     </div>
     <aside class="principles">
       <ol class="principles-list">
@@ -115,22 +92,20 @@ const postByPrinciple = new Map(
 
     <!-- METHOD -->
     <div class="section-header">
-      <span class="num">005 · Method</span>
       <h2>A method, not a methodology.</h2>
       <p class="desc">Four phases. Each one ends with a decision, not a deliverable. We do not sell discovery. We do the work.</p>
     </div>
     <div class="method">
-      <div class="method-step"><span class="stepnum">Step 01 / Diagnose</span><p>Interview the people doing the work. Audit the artefacts. Find what's actually slowing the team down — not what people think is slowing them down.</p><h4>Diagnose</h4></div>
+      <div class="method-step"><span class="stepnum">Step 01 / Diagnose</span><p>Interview the people doing the work. Audit the artefacts. Find what's actually slowing the team down, not what people think is slowing them down.</p><h4>Diagnose</h4></div>
       <div class="method-step"><span class="stepnum">Step 02 / Decide</span><p>Agree what the team will do, won't do, and will stop doing. Cuts come before additions. Nothing new ships until something old is removed.</p><h4>Decide</h4></div>
-      <div class="method-step"><span class="stepnum">Step 03 / Design</span><p>Build the principles, the process, or the strategy. Document it in a form the team will actually use — short, plain, durable.</p><h4>Design</h4></div>
+      <div class="method-step"><span class="stepnum">Step 03 / Design</span><p>Build the principles, the process, or the strategy. Document it in a form the team will actually use: short, plain, durable.</p><h4>Design</h4></div>
       <div class="method-step"><span class="stepnum">Step 04 / Hand over</span><p>Leave the team capable of running it themselves. No retainer dependency. No recurring fees. If you need us again, it's because something changed.</p><h4>Hand over</h4></div>
     </div>
 
     <!-- TRACK RECORD -->
     <div class="section-header">
-      <span class="num">006 · Track record</span>
       <h2>Over 15 years inside the work.</h2>
-      <p class="desc">Built on L&amp;D practice across financial services, retail, energy, government, and technology. The same person doing the work today did it in-house — before consulting on it.</p>
+      <p class="desc">Built on L&amp;D practice across financial services, retail, energy, government, and technology. The same person doing the work today did it in-house, before consulting on it.</p>
     </div>
     <div class="metrics">
       <div class="metric"><div class="figure">15+<span class="unit">yrs</span></div><div class="mlabel">L&amp;D practice<br />across sectors</div></div>
@@ -139,20 +114,8 @@ const postByPrinciple = new Map(
       <div class="metric"><div class="figure">00</div><div class="mlabel">Retainers<br />required</div></div>
     </div>
 
-    <!-- COMMISSION -->
-    <div class="closing" id="commission">
-      <div>
-        <span class="num">007 · Commission</span>
-        <h3>Tell us what your team is stuck on.</h3>
-        <p>Most engagements begin with a thirty-minute call. No deck, no discovery package, no obligation. If we're not the right fit, we'll say so. If we are, you'll have a fixed scope and a fixed price within a week.</p>
-        <a href="https://cal.com/mattsmith/intro?duration=30" class="btn-light">Start a conversation</a>
-      </div>
-      <div class="meta-r">
-        <div class="group"><strong>Location</strong>Wadawurrung Country<br />Australia</div>
-        <div class="group"><strong>Operating</strong>Global · Virtual</div>
-        <div class="group"><strong>Contact</strong>hello@thisismattsmith.com</div>
-      </div>
-    </div>
+    <!-- CONTACT -->
+    <ContactCTA />
   </main>
 </BaseLayout>
 
@@ -160,27 +123,14 @@ const postByPrinciple = new Map(
   main { position: relative; z-index: 5; padding: 0 var(--pad-x); max-width: var(--maxw); margin: 0 auto; }
 
   .hero { padding: var(--s7) 0 var(--s6); border-bottom: 2px solid var(--ink); display: grid; grid-template-columns: repeat(12, 1fr); gap: var(--s3); align-items: end; }
-  .hero .id { grid-column: 1 / 13; font-family: var(--font-mono); font-size: var(--t-mono); letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: var(--s4); display: flex; gap: var(--s3); flex-wrap: wrap; }
-  .hero .id strong { color: var(--ink); font-weight: 700; }
   .hero h1 { grid-column: 1 / 10; font-family: var(--font-display); font-weight: 900; font-size: var(--t-display); line-height: 0.95; letter-spacing: -0.035em; }
   .hero .deck { grid-column: 1 / 8; font-size: var(--t-deck); line-height: 1.55; margin-top: var(--s4); max-width: 54ch; }
   .hero .actions { grid-column: 1 / 13; margin-top: var(--s4); display: flex; gap: var(--s3); flex-wrap: wrap; align-items: center; }
-  .btn-light { display: inline-flex; align-items: center; gap: 12px; background: var(--paper); color: var(--ink); padding: 16px 28px; font-weight: 700; font-size: var(--t-small); letter-spacing: 0.04em; transition: background 0.15s, color 0.15s; }
-  .btn-light::after { content: "→"; }
-  .btn-light:hover { background: var(--signal); color: var(--paper); }
 
-  .section-header { margin-top: var(--s7); padding-top: var(--s4); border-top: 2px solid var(--ink); display: grid; grid-template-columns: 1fr 2fr; gap: var(--s3); align-items: baseline; }
-  .section-header .num { font-family: var(--font-mono); font-size: var(--t-mono); letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink-soft); }
+  .section-header { margin-top: var(--s7); padding-top: var(--s4); border-top: 2px solid var(--ink); }
   .section-header h2 { font-family: var(--font-display); font-weight: 900; font-size: var(--t-h2); letter-spacing: -0.025em; line-height: 1; }
-  .section-header .desc { grid-column: 2; margin-top: var(--s2); font-size: var(--t-body); line-height: 1.55; color: var(--ink-soft); max-width: 60ch; }
+  .section-header .desc { margin-top: var(--s2); font-size: var(--t-body); line-height: 1.55; color: var(--ink-soft); max-width: 60ch; }
 
-  .availability { margin-top: var(--s4); background: var(--ink); color: var(--paper); padding: var(--s5); display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: var(--s5); align-items: start; }
-  .availability .head { font-family: var(--font-mono); font-size: var(--t-mono); letter-spacing: 0.22em; text-transform: uppercase; color: var(--concrete); margin-bottom: var(--s2); }
-  .availability .status { font-family: var(--font-display); font-weight: 900; font-size: var(--t-h3); letter-spacing: -0.015em; line-height: 1.1; display: flex; align-items: center; gap: 12px; }
-  .availability .status .dot { width: 10px; height: 10px; background: var(--signal); border-radius: 50%; }
-  .availability .col p { font-size: var(--t-small); line-height: 1.55; opacity: 0.85; margin-top: 6px; }
-  .availability .metabox { font-family: var(--font-mono); font-size: var(--t-mono-sm); letter-spacing: 0.16em; text-transform: uppercase; color: var(--concrete); line-height: 1.9; }
-  .availability .metabox strong { color: var(--paper); font-weight: 700; }
 
   .catalogue { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); margin-top: var(--s4); }
   .cat-item { background: var(--paper); padding: var(--s4) 28px 28px; display: grid; grid-template-rows: auto 1fr auto; gap: var(--s3); min-height: 280px; transition: background 0.2s; }
@@ -226,19 +176,8 @@ const postByPrinciple = new Map(
   .metric .figure .unit { font-size: 0.4em; color: var(--ink-soft); margin-left: 4px; letter-spacing: 0; font-weight: 700; }
   .metric .mlabel { font-family: var(--font-mono); font-size: var(--t-mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); margin-top: 12px; line-height: 1.5; }
 
-  .closing { margin-top: var(--s7); margin-bottom: var(--s6); background: var(--ink); color: var(--paper); padding: var(--s7) var(--s5); display: grid; grid-template-columns: 1.6fr 1fr; gap: var(--s6); }
-  .closing .num { font-family: var(--font-mono); font-size: var(--t-mono); letter-spacing: 0.22em; text-transform: uppercase; color: var(--concrete); }
-  .closing h3 { font-family: var(--font-display); font-weight: 900; font-size: var(--t-h2); letter-spacing: -0.025em; line-height: 1; margin: var(--s2) 0 var(--s3); }
-  .closing p { font-size: var(--t-deck); line-height: 1.55; opacity: 0.85; max-width: 50ch; }
-  .closing .meta-r { font-family: var(--font-mono); font-size: var(--t-mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--concrete); line-height: 1.9; }
-  .closing .meta-r strong { color: var(--paper); display: block; margin-bottom: 6px; font-weight: 700; }
-  .closing .meta-r .group + .group { margin-top: var(--s3); }
-
   @media (max-width: 900px) {
     .hero h1, .hero .deck { grid-column: 1 / 13; }
-    .section-header { grid-template-columns: 1fr; }
-    .section-header .desc, .section-header h2 { grid-column: 1; }
-    .availability, .catalogue, .method, .metrics { grid-template-columns: 1fr; }
-    .closing { grid-template-columns: 1fr; padding: var(--s5) var(--s3); gap: var(--s4); }
-  }
+    .catalogue, .method, .metrics { grid-template-columns: 1fr; }
+    }
 </style>

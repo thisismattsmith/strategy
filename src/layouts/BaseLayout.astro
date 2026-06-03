@@ -25,6 +25,9 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
   <meta property="og:type" content="website" />
   <meta property="og:url" content={canonical} />
   <meta name="twitter:card" content="summary_large_image" />
+  {/* TODO: OG image generation. Per-post 1200x630 PNG using the brand template,
+       carrying "Field Note No. XX" and the title. Likely implemented as an Astro
+       endpoint at /og/[slug].png using satori or @vercel/og. */}
 </head>
 <body>
   <Header current={current} />

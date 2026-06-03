@@ -2,11 +2,10 @@
 // Header.astro — black utility strip + nav, shared across all pages.
 const { current = '' } = Astro.props;
 const nav = [
-  { href: '/',           label: 'Home',      key: 'home' },
-  { href: '/about',      label: 'About',     key: 'about' },
-  { href: '/problems',   label: 'Problems',  key: 'problems' },
-  { href: '/catalogue',  label: 'Catalogue', key: 'catalogue' },
-  { href: '/blog',       label: 'Notes',     key: 'blog' },
+  { href: '/',           label: 'Home',     key: 'home' },
+  { href: '/about',      label: 'About',    key: 'about' },
+  { href: '/services',   label: 'Services', key: 'services' },
+  { href: '/blog',       label: 'Notes',    key: 'blog' },
 ];
 ---
 <div class="util">
@@ -16,7 +15,7 @@ const nav = [
     <span>Est. 2026</span>
   </div>
   <div class="right">
-    <span>Wadawurrung Country / Australia</span>
+    <span>Virtual / Global</span>
     <span class="sep">·</span>
     <span class="live"><span class="dot"></span> Q3 ’26 · Engagements open</span>
   </div>
@@ -30,7 +29,7 @@ const nav = [
     ))}
   </ul>
   <div class="right-set">
-    <a href="/#commission" class="btn-nav">Commission <span>→</span></a>
+    <a href="/#contact" class="btn-nav">Contact <span>→</span></a>
   </div>
 </nav>
 

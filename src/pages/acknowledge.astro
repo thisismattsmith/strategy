@@ -1,0 +1,50 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout
+  title="Acknowledgment of Country · Strategic L&D"
+  description="An acknowledgment of Wadawurrung Country and of all Aboriginal and Torres Strait Islander Traditional Custodians."
+  current=""
+>
+  <article class="ack">
+    <h1>Acknowledgment of Country</h1>
+
+    <p>I live, and work most of the time, from Wadawurrung Country.</p>
+
+    <p>I acknowledge the Wadawurrung people as the Traditional Owners and custodians of the land on which I work and live. I also acknowledge all Aboriginal and Torres Strait Islander Traditional Custodians of Country and recognise their continuing connection to land, sea, culture and community.</p>
+
+    <h3>About this page</h3>
+
+    <p>This page was written by Matt Smith, an Indigenous Australian descended from the Gubbi Gubbi people.</p>
+
+    <p>If you are unsure whose Country you are on, the <a href="https://aiatsis.gov.au/explore/map-indigenous-australia" target="_blank" rel="noopener">AIATSIS Map of Indigenous Australia ↗</a> is a starting point. For an authoritative answer, contact the relevant local Traditional Owner organisation or land council directly.</p>
+  </article>
+</BaseLayout>
+
+<style>
+  .ack { max-width: 760px; margin: 0 auto; padding: var(--s7) var(--pad-x) var(--s7); }
+  .ack h1 {
+    font-family: var(--font-display); font-weight: 900;
+    font-size: var(--t-display); letter-spacing: -0.035em; line-height: 0.98;
+    margin-bottom: var(--s5);
+    padding-bottom: var(--s4);
+    border-bottom: 2px solid var(--ink);
+  }
+  .ack h3 {
+    font-family: var(--font-display); font-weight: 800;
+    font-size: var(--t-h3); letter-spacing: -0.015em;
+    margin: var(--s5) 0 var(--s3);
+  }
+  .ack p {
+    font-size: 18px; line-height: 1.7;
+    margin-bottom: var(--s3); color: var(--ink);
+    max-width: 62ch;
+  }
+  .ack a {
+    color: var(--ink);
+    border-bottom: 1px solid var(--signal);
+    padding-bottom: 1px;
+    transition: color 0.15s;
+  }
+  .ack a:hover { color: var(--signal); }
+</style>

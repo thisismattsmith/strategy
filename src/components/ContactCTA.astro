@@ -1,0 +1,187 @@
+---
+// ContactCTA.astro — the closing call-to-action used on the homepage and About page.
+// Renders a dark section with:
+//   • LEFT  · heading + paragraph + cal.com button ("Let's start the conversation")
+//   • RIGHT · Netlify-backed contact form (name, email, details, Send button)
+//
+// Netlify auto-detects forms in the built HTML. The hidden `form-name` input
+// is required for Astro/static-built forms to be picked up at deploy time.
+//
+// Props let the section be reused with different copy where useful.
+
+export interface Props {
+  heading?: string;
+  body?: string;
+  buttonLabel?: string;
+  buttonHref?: string;
+  formName?: string;
+  id?: string;
+}
+
+const {
+  heading = 'Tell us what your team is stuck on.',
+  body = "Most engagements begin with a thirty-minute call. No deck, no discovery package, no obligation. If we're not the right fit, we'll say so. If we are, you'll have a fixed scope and a fixed price within a week.",
+  buttonLabel = "Schedule a meeting",
+  buttonHref = 'https://cal.com/mattsmith/strategic-l-d-discovery',
+  formName = 'contact',
+  id = 'contact',
+} = Astro.props;
+---
+<section class="contact-cta" id={id}>
+  <div class="cta-grid">
+    <div class="cta-text">
+      <h3>{heading}</h3>
+      <p>{body}</p>
+      <a href={buttonHref} target="_blank" rel="noopener" class="btn-light">
+        {buttonLabel} <span class="arrow">→</span>
+      </a>
+    </div>
+
+    <form
+      name={formName}
+      method="POST"
+      data-netlify="true"
+      netlify-honeypot="bot-field"
+      class="cta-form"
+    >
+      <input type="hidden" name="form-name" value={formName} />
+      <p class="honeypot"><label>Don't fill this out: <input name="bot-field" /></label></p>
+
+      <label class="field">
+        <span>Name</span>
+        <input type="text" name="name" required autocomplete="name" />
+      </label>
+
+      <label class="field">
+        <span>Email</span>
+        <input type="email" name="email" required autocomplete="email" />
+      </label>
+
+      <label class="field">
+        <span>Details</span>
+        <textarea
+          name="details"
+          rows="3"
+          placeholder="Your organisation and what you'd like to talk about"
+        ></textarea>
+      </label>
+
+      <button type="submit" class="btn-send">Send</button>
+    </form>
+  </div>
+</section>
+
+<style>
+  .contact-cta {
+    margin-top: var(--s7);
+    margin-bottom: var(--s6);
+    background: var(--ink);
+    color: var(--paper);
+    padding: var(--s7) var(--s5);
+  }
+  .cta-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: var(--s6);
+    align-items: start;
+    max-width: 1100px;
+  }
+  .cta-text h3 {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: var(--t-h2);
+    letter-spacing: -0.025em;
+    line-height: 1.05;
+    margin-bottom: var(--s3);
+  }
+  .cta-text p {
+    font-size: var(--t-deck);
+    line-height: 1.55;
+    opacity: 0.85;
+    max-width: 50ch;
+    margin-bottom: var(--s5);
+  }
+  .btn-light {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--paper);
+    color: var(--ink);
+    padding: 14px 22px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 16px;
+    border: 1px solid var(--paper);
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+  }
+  .btn-light:hover { background: var(--signal); border-color: var(--signal); color: var(--paper); }
+  /* Arrow inside the button: nudges right on hover. The button itself
+     doesn't change size — only the arrow translates within its existing slot. */
+  .btn-light .arrow {
+    display: inline-block;
+    transition: transform 0.18s ease;
+    will-change: transform;
+  }
+  .btn-light:hover .arrow { transform: translateX(4px); }
+
+  /* form */
+  .cta-form { display: flex; flex-direction: column; gap: var(--s3); }
+  .honeypot { position: absolute; left: -9999px; opacity: 0; pointer-events: none; }
+  .field { display: flex; flex-direction: column; gap: 8px; }
+  .field > span {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--concrete);
+  }
+  .cta-form input,
+  .cta-form textarea {
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 10px 0;
+    color: var(--paper);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.5;
+    transition: border-color 0.15s;
+  }
+  .cta-form input:focus,
+  .cta-form textarea:focus {
+    outline: 0;
+    border-bottom-color: var(--signal);
+  }
+  .cta-form textarea {
+    resize: vertical;
+    min-height: 64px;
+  }
+  .cta-form ::placeholder { color: rgba(239, 234, 227, 0.45); }
+
+  /* Send button — dark with light outline, mono small text, right-aligned.
+     Hover flips to light. */
+  .btn-send {
+    align-self: flex-end;
+    margin-top: var(--s2);
+    background: transparent;
+    color: var(--paper);
+    border: 1px solid var(--paper);
+    padding: 10px 20px;
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+  }
+  .btn-send:hover {
+    background: var(--paper);
+    color: var(--ink);
+  }
+
+  @media (max-width: 860px) {
+    .cta-grid { grid-template-columns: 1fr; gap: var(--s5); }
+    .contact-cta { padding: var(--s5) var(--s3); }
+  }
+</style>

@@ -1,0 +1,69 @@
+---
+// Interactive.astro — reusable frame for ANY interactive element.
+// Signals interactivity with a bordered panel, soft shadow/gradient (matching
+// the carousel diagram treatment), and a mono metadata line:
+//   left  = label/description (what this is)
+//   right = instruction (what to do)
+//
+// Usage in MDX:
+//   <Interactive label="Positioning · 8 questions" instruction="Select each question to learn more">
+//     <QuestionFlow />
+//   </Interactive>
+//
+// Props:
+//   label       — mono title/description, shown top-left
+//   instruction — mono call-to-action, shown top-right (e.g. "Select to expand")
+//   serial      — optional mono serial shown bottom-right (e.g. "FIG. 01")
+const { label = '', instruction = '', serial = '' } = Astro.props;
+---
+<figure class="interactive">
+  {(label || instruction) && (
+    <figcaption class="meta">
+      <span class="label">{label}</span>
+      <span class="instruction">{instruction}</span>
+    </figcaption>
+  )}
+  <div class="frame">
+    <slot />
+    {serial && <span class="serial">{serial}</span>}
+  </div>
+</figure>
+
+<style>
+  .interactive { margin: var(--s5) 0; }
+
+  .meta {
+    display: flex; justify-content: space-between; align-items: baseline;
+    font-family: var(--font-mono); font-size: var(--t-mono);
+    letter-spacing: 0.18em; text-transform: uppercase;
+    margin-bottom: var(--s2); gap: var(--s3); flex-wrap: wrap;
+  }
+  .meta .label { color: var(--ink); font-weight: 700; }
+  .meta .instruction { color: var(--ink-soft); display: inline-flex; align-items: center; gap: 8px; }
+  /* small leading marker on the instruction to read as a prompt */
+  .meta .instruction::before {
+    content: ""; width: 7px; height: 7px; border-radius: 50%;
+    background: var(--signal); display: inline-block; flex: none;
+  }
+
+  .frame {
+    position: relative;
+    background:
+      radial-gradient(ellipse at 50% 120%, rgba(0,0,0,0.10) 0%, transparent 60%),
+      var(--paper-2);
+    padding: var(--s5) var(--s4);
+    box-shadow:
+      0 30px 60px -28px rgba(0,0,0,0.30),
+      0 8px 16px -8px rgba(0,0,0,0.12);
+  }
+
+  .serial {
+    position: absolute; bottom: 12px; right: 18px;
+    font-family: var(--font-mono); font-size: var(--t-mono-sm);
+    letter-spacing: 0.18em; color: var(--ink-faint);
+  }
+
+  @media (max-width: 700px) {
+    .frame { padding: var(--s4) var(--s3); }
+  }
+</style>

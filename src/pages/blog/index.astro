@@ -2,7 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
-const posts = (await getCollection('blog', ({ data }) => !data.draft))
+const posts = (await getCollection('blog', ({ data }) => import.meta.env.DEV || !data.draft))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 ---
 <BaseLayout title="Notes — Strategic L&D" description="Short pieces on the principles behind the work. Practice, not theory." current="blog">
@@ -23,7 +23,7 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft))
             <li>
               <a href={`/blog/${post.id}`}>
                 <div class="l-meta">
-                  <span>{post.data.principle ? `No. ${String(post.data.principle).padStart(2, '0')}` : 'Note'}</span>
+                  <span>Field Note No. {String(post.data.note_number).padStart(2, '0')}</span>
                   <span>{date}</span>
                   <span class="cat">{post.data.category}</span>
                 </div>

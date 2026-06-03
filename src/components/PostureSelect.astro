@@ -1,0 +1,114 @@
+---
+// PostureSelect.astro — interactive "pick the one that sounds like you" component.
+// Three parallel boxes (no sequence). Descriptions are visible at rest; clicking a
+// box reveals the title above its description. Single-open accordion. Designed to
+// sit INSIDE <Interactive>. Same selected-state device as QuestionFlow: thick
+// orange left-bar (the title-underline emphasis applied as an edge).
+//
+// Props:
+//   items: { title: string; description: string }[]   // exactly 3 recommended
+
+const defaultItems = [
+  { title: 'The reactor',    description: '' },
+  { title: 'The predictor',  description: '' },
+  { title: 'The anticipator',description: '' },
+];
+
+const { items = defaultItems } = Astro.props;
+---
+<div class="pselect" role="list">
+  {items.map((item, i) => (
+    <button
+      class="pnode"
+      role="listitem"
+      aria-expanded="false"
+      data-pnode
+    >
+      <span class="idx">{String(i + 1).padStart(2, '0')}</span>
+      <span class="title" data-title>{item.title}</span>
+      <p class="desc"><Fragment set:html={item.description} /></p>
+      <span class="ctrl" aria-hidden="true">
+        <span class="bar bar-h"></span>
+        <span class="bar bar-v"></span>
+      </span>
+    </button>
+  ))}
+</div>
+
+<style>
+  .pselect {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--s2);
+    align-items: stretch;
+  }
+
+  .pnode {
+    text-align: left; cursor: pointer;
+    background: var(--paper); border: 1px solid var(--ink);
+    padding: 22px 22px 22px 26px; position: relative;
+    display: flex; flex-direction: column; gap: 10px;
+    font-family: inherit; color: var(--ink);
+    transition: background 0.15s;
+  }
+  .pnode:hover { background: var(--paper-2); }
+
+  .pnode .idx {
+    font-family: var(--font-mono); font-size: var(--t-mono); color: var(--ink-faint);
+    letter-spacing: 0.04em; display: flex; align-items: center; gap: 8px;
+    transition: color 0.15s;
+  }
+  .pnode .idx::before { content: ""; width: 16px; height: 2px; background: var(--ink); transition: background 0.15s; }
+
+  /* title is hidden at rest; revealed when the node is selected */
+  .pnode .title {
+    font-family: var(--font-display); font-weight: 800; font-size: 20px;
+    letter-spacing: -0.015em; line-height: 1.1; color: var(--ink);
+    display: none;
+  }
+  .pnode[aria-expanded="true"] .title { display: block; }
+
+  .pnode .desc {
+    font-size: 15px; line-height: 1.55; color: var(--ink-soft); margin: 0;
+  }
+  .pnode[aria-expanded="true"] .desc { color: var(--ink); }
+
+  /* CONTROL AFFORDANCE — framed +, becomes − when selected */
+  .pnode .ctrl {
+    position: absolute; right: 16px; top: 16px;
+    width: 24px; height: 24px; border: 2px solid var(--ink);
+    display: inline-flex; align-items: center; justify-content: center;
+    transition: border-color 0.15s;
+  }
+  .pnode .ctrl .bar { position: absolute; background: var(--ink); transition: background 0.15s, transform 0.2s ease, opacity 0.2s ease; }
+  .pnode .ctrl .bar-h { width: 10px; height: 2px; }
+  .pnode .ctrl .bar-v { width: 2px;  height: 10px; }
+
+  /* SELECTED — thick orange left-bar, same emphasis device as title underline */
+  .pnode[aria-expanded="true"] { padding-left: 32px; }
+  .pnode[aria-expanded="true"]::before {
+    content: ""; position: absolute; left: -1px; top: -1px; bottom: -1px; width: 10px;
+    background: var(--signal); opacity: 1;
+  }
+  .pnode[aria-expanded="true"] .idx { color: var(--ink); }
+  .pnode[aria-expanded="true"] .idx::before { background: var(--signal); }
+  .pnode[aria-expanded="true"] .ctrl { border-color: var(--signal); }
+  .pnode[aria-expanded="true"] .ctrl .bar { background: var(--signal); }
+  .pnode[aria-expanded="true"] .ctrl .bar-v { transform: scaleY(0); opacity: 0; }
+
+  @media (max-width: 760px) {
+    .pselect { grid-template-columns: 1fr; }
+  }
+</style>
+
+<script>
+  document.querySelectorAll('[data-pnode]').forEach((node) => {
+    node.addEventListener('click', () => {
+      const isOpen = node.getAttribute('aria-expanded') === 'true';
+      node.closest('.pselect')?.querySelectorAll('[data-pnode]').forEach((n) => {
+        n.setAttribute('aria-expanded', 'false');
+      });
+      if (!isOpen) node.setAttribute('aria-expanded', 'true');
+    });
+  });
+</script>

@@ -1,0 +1,132 @@
+---
+// Availability.astro — single source of truth for the team's current capacity.
+// Visual treatment matches the original homepage availability section:
+// light section header above + dark grid below with mono "metabox" text.
+//
+// Props:
+//   status        — 'open' (green pulsing) | 'limited' (orange pulsing) | 'closed' (grey static).
+//                   This is the ONE edit point when switching availability.
+//   statusLabel   — line shown next to the dot (default "Accepting Q3 2026").
+//   capacity      — array of {quarter, status} pairs (defaults to Q2 / Q3 / Q4).
+//   contactEmail, schedulingUrl, heading, desc — optional overrides.
+
+export interface Props {
+  status?: 'open' | 'limited' | 'closed';
+  statusLabel?: string;
+  capacity?: { quarter: string; status: string }[];
+  schedulingUrl?: string;
+}
+
+const {
+  status = 'open',
+  statusLabel = 'Accepting Q3 2026',
+  capacity = [
+    { quarter: 'Q2', status: 'Booked out' },
+    { quarter: 'Q3', status: 'Accepting enquiries' },
+    { quarter: 'Q4', status: 'Accepting enquiries' },
+  ],
+  schedulingUrl = 'https://cal.com/mattsmith/strategic-l-d-discovery',
+} = Astro.props;
+---
+<div class={`availability status-${status}`}>
+  <div class="col">
+    <div class="head">Current status</div>
+    <div class="status"><span class="dot"></span> {statusLabel}</div>
+    <p>Most engagements begin with a thirty-minute call. No deck, no discovery package, no obligation.</p>
+  </div>
+  <div class="col">
+    <div class="head">Capacity</div>
+    <div class="metabox">
+      {capacity.map((q, i) => (
+        <>
+          <strong>{q.quarter}</strong> {q.status}{i < capacity.length - 1 && <br />}
+        </>
+      ))}
+    </div>
+  </div>
+  <div class="col">
+    <div class="head">Contact</div>
+    <a href={schedulingUrl} target="_blank" rel="noopener" class="btn-call">
+      Schedule a call <span>↗</span>
+    </a>
+  </div>
+</div>
+
+<style>
+  /* Dark grid — the entire component. No light header above. */
+  .availability {
+    margin-top: var(--s5);
+    background: var(--ink); color: var(--paper);
+    padding: var(--s5);
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr;
+    gap: var(--s5);
+    align-items: start;
+  }
+  .availability .head {
+    font-family: var(--font-mono); font-size: var(--t-mono);
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--concrete); margin-bottom: var(--s2);
+  }
+  .availability .status {
+    font-family: var(--font-display); font-weight: 900;
+    font-size: var(--t-h3); letter-spacing: -0.015em; line-height: 1.1;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .availability .col p {
+    font-size: var(--t-small); line-height: 1.55;
+    opacity: 0.85; margin-top: 6px;
+  }
+  .availability .metabox {
+    font-family: var(--font-mono); font-size: var(--t-mono-sm);
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--concrete); line-height: 1.9;
+  }
+  .availability .metabox strong { color: var(--paper); font-weight: 700; }
+
+  /* Pulsing dot — green when 'open', orange when 'limited', static grey when 'closed'.
+     The pulse mirrors the top-bar live-status dot. */
+  .availability .status .dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: #4caf50;
+    box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.55);
+    animation: av-pulse-green 1.8s infinite cubic-bezier(0.4, 0, 0.6, 1);
+  }
+  .availability.status-limited .status .dot {
+    background: var(--signal);
+    box-shadow: 0 0 0 0 rgba(232, 90, 12, 0.55);
+    animation: av-pulse-orange 1.8s infinite cubic-bezier(0.4, 0, 0.6, 1);
+  }
+  .availability.status-closed .status .dot {
+    background: var(--ink-faint);
+    box-shadow: none;
+    animation: none;
+  }
+  @keyframes av-pulse-green {
+    0%   { box-shadow: 0 0 0 0   rgba(76, 175, 80, 0.55); }
+    70%  { box-shadow: 0 0 0 12px rgba(76, 175, 80, 0); }
+    100% { box-shadow: 0 0 0 0   rgba(76, 175, 80, 0); }
+  }
+  @keyframes av-pulse-orange {
+    0%   { box-shadow: 0 0 0 0   rgba(232, 90, 12, 0.55); }
+    70%  { box-shadow: 0 0 0 12px rgba(232, 90, 12, 0); }
+    100% { box-shadow: 0 0 0 0   rgba(232, 90, 12, 0); }
+  }
+
+  /* Schedule a call button — dark with light outline, hover flips to light. */
+  .btn-call {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 10px 18px;
+    background: transparent; color: var(--paper);
+    border: 1px solid var(--paper);
+    font-family: var(--font-mono); font-weight: 500;
+    font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase;
+    transition: background 0.15s, color 0.15s;
+  }
+  .btn-call:hover { background: var(--paper); color: var(--ink); }
+  .btn-call span { font-size: 14px; }
+
+  @media (max-width: 900px) {
+    .availability { grid-template-columns: 1fr; gap: var(--s4); padding: var(--s4); }
+  }
+</style>
