@@ -66,9 +66,3 @@ More prose...
 bundles automatically. No `client:*` directive is needed for a plain Astro component
 with an inline script. If you later add React/Svelte components, install the matching
 `@astrojs/*` integration and use `client:load` / `client:visible` on those.
-
-## Before deploying
-
-- Set the real production URL in `astro.config.mjs` (`site:`).
-- Replace the draft post prose with final copy.
-- Confirm the 8th question wording in `QuestionFlow.astro` (currently a placeholder).
