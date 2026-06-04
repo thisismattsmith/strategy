@@ -15,10 +15,10 @@ import BaseLayout from './BaseLayout.astro';
 import BookSidebar from '../components/BookSidebar.astro';
 import BookPrevNext from '../components/BookPrevNext.astro';
 import BookFooter from '../components/BookFooter.astro';
-import { getNode, BOOK, type BookNode } from '../data/book-structure';
+import { getResolvedNode, BOOK, type ResolvedNode } from '../data/book-structure';
 
 export interface Props {
-  node: BookNode;
+  node: ResolvedNode;
   description?: string;
 }
 
@@ -34,7 +34,9 @@ const totalParts = BOOK.filter((n) => n.kind === 'part').length;
 const partIndex = node.kind === 'part'
   ? BOOK.filter((n) => n.kind === 'part').findIndex((n) => n.slug === node.slug) + 1
   : 0;
-const parentPart = node.kind === 'chapter' && node.partSlug ? getNode(node.partSlug) : undefined;
+const parentPart = node.kind === 'chapter' && node.partSlug
+  ? await getResolvedNode(node.partSlug)
+  : undefined;
 
 const pageTitle =
   node.kind === 'chapter' || node.kind === 'part'

@@ -3,17 +3,17 @@
 // Resolves prev/next by index from book-structure.ts.
 // Theme adapts via the parent's [data-theme="dark"] attribute.
 
-import { getPrev, getNext } from '../data/book-structure';
+import { getResolvedPrev, getResolvedNext, type ResolvedNode } from '../data/book-structure';
 
 export interface Props {
   currentSlug: string;
 }
 
 const { currentSlug } = Astro.props;
-const prev = getPrev(currentSlug);
-const next = getNext(currentSlug);
+const prev = await getResolvedPrev(currentSlug);
+const next = await getResolvedNext(currentSlug);
 
-const fmtLabel = (n: typeof prev): string => {
+const fmtLabel = (n: ResolvedNode | undefined): string => {
   if (!n) return '';
   if (n.kind === 'intro') return 'Introduction';
   return `${n.label}. ${n.title}`;

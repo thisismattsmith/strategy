@@ -7,14 +7,14 @@
 // Theming: when used inside a dark layout, the parent sets [data-theme="dark"]
 // on the sidebar's container and the styles adapt.
 
-import { tocGroups, activePartSlug } from '../data/book-structure';
+import { getResolvedTocGroups, activePartSlug } from '../data/book-structure';
 
 export interface Props {
   currentSlug: string;
 }
 
 const { currentSlug } = Astro.props;
-const groups = tocGroups();
+const groups = await getResolvedTocGroups();
 const openPart = activePartSlug(currentSlug);
 ---
 <aside class="bk-sidebar">

@@ -1,22 +1,26 @@
 ---
 // /second-advantage/[slug] — dynamic book pages.
-// Resolves each entry in src/content/book/ to its corresponding node
-// in book-structure.ts, then renders through BookLayout.
+// Each page is the intersection of one entry in src/content/book/ and one
+// node in src/data/book-structure.ts. Titles come from the markdown's
+// frontmatter; reading order, hierarchy, and labels come from the spine.
 
 import { getCollection, render } from 'astro:content';
 import BookLayout from '../../layouts/BookLayout.astro';
-import { getNode } from '../../data/book-structure';
+import { BOOK } from '../../data/book-structure';
 
 export async function getStaticPaths() {
   const entries = await getCollection('book');
-  return entries
-    .map((entry) => {
-      const node = getNode(entry.id);
-      // Skip any markdown file that isn't in the structure (defensive).
-      if (!node) return null;
-      return { params: { slug: entry.id }, props: { entry, node } };
-    })
-    .filter(Boolean);
+  const byId = new Map(entries.map((e) => [e.id, e]));
+
+  // Iterate the spine (not the collection) so order is deterministic and any
+  // markdown file missing from the spine is silently skipped here — the
+  // build-time check in getResolvedBook() warns about orphan files separately.
+  return BOOK.flatMap((spine) => {
+    const entry = byId.get(spine.slug);
+    if (!entry) return []; // missing file is caught by getResolvedBook() too
+    const node = { ...spine, title: entry.data.title };
+    return [{ params: { slug: spine.slug }, props: { entry, node } }];
+  });
 }
 
 const { entry, node } = Astro.props;
