@@ -58,8 +58,8 @@ const noteLabel = `Field Note No. ${String(note_number).padStart(2, '0')}`;
     letter-spacing: -0.015em; margin: var(--s5) 0 var(--s2);
   }
   .prose :global(p) { font-size: 18px; line-height: 1.7; margin: 0 0 var(--s3); color: var(--ink); }
-  .prose :global(a) { color: var(--ink); border-bottom: 1px solid var(--signal); }
-  .prose :global(a:hover) { color: var(--signal); }
+  /* link styling lives in tokens.css (.prose a) — single source of truth for the
+     darker-text + dotted-underline → bold + sweeping accent treatment */
   .prose :global(strong) { font-weight: 700; }
   .prose :global(ul), .prose :global(ol) { margin: 0 0 var(--s3) var(--s3); }
   .prose :global(li) { font-size: 18px; line-height: 1.7; margin-bottom: var(--s1); }

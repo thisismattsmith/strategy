@@ -211,13 +211,8 @@ const pageDescription =
   .bk-dark .bk-prose :global(h2),
   .bk-dark .bk-prose :global(h3) { color: var(--paper); }
 
-  .bk-prose :global(a) {
-    color: var(--ink);
-    border-bottom: 1px solid var(--signal);
-  }
-  .bk-prose :global(a:hover) { color: var(--signal); }
-  .bk-dark .bk-prose :global(a) { color: var(--paper); }
-  .bk-dark .bk-prose :global(a:hover) { color: var(--signal); }
+  /* link styling lives in tokens.css (.bk-prose a for light pages,
+     .bk-wrap.bk-dark .bk-prose a override for dark pages). */
 
   .bk-prose :global(strong) { font-weight: 700; }
   .bk-prose :global(em) { font-style: italic; }

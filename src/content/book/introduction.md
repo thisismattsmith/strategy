@@ -11,19 +11,17 @@ You’re in it every day. You have the opportunity to truly understand the busin
 
 I'm outside. You're inside.
 
-That’s a huge advantage. The biggest advantage, in my opinion.
+That’s a huge advantage. The biggest advantage you have, in my opinion. The best L&D teams I've worked with are the ones that truly understand that and embrace it.
 
-The best L&D teams I've worked with are the ones that truly understand that and embrace it.
-
-But this book isn't about that. This book is about another advantage. A second advantage that is right there for you to build upon that first one.
+But *this book isn't about that*. This book is about another advantage. A second advantage that is right there for you to build upon that first one.
 
 Do you ever work with outside agencies? You might call them vendors, external partners, consulting groups, or something else. Throughout this book I'll use "agency".
 
-Well I’ve worked for a number of agencies and have run my own. Something that has always confused me was the lack of curiosity from the internals about the externals.
+I’ve worked for a number of agencies and have run my own. Something that has always confused me was the lack of curiosity from the "internals" about the "externals".
 
-I'd hear "We'd never be able to turn that around so quickly" but not "How do you turn it around so quickly?". L&D managers would say "We couldn't achieve this quality with those deadlines" but never "How do meet tight deadlines without sacrificing quality?"
+I'd hear 'We'd never be able to turn that around so quickly' but not 'How do you turn it around so quickly?'. L&D managers would say 'We couldn't achieve this quality with those deadlines' but never 'How do meet tight deadlines without sacrificing quality?'
 
-Maybe they assumed it was because we had more people. Or we just had their one thing to focus on (we didn't). Or maybe were too busy to think about it?
+Maybe they assumed it was because we had more people. Or we just had their one thing to focus on (we didn't). Or maybe they were too busy to think about it?
 
 Well if you have the time, this book is here to tell you
 
@@ -37,10 +35,10 @@ Do you have trouble with:
 
 These are issues that agencies have to deal with as well. Except the incentives are different.  If you can't juggle many different projects, for very different clients, the agency won't last. If you can't be efficient you won't make money. If you can't deliver on time you'll lose clients.
 
-It's stressful and hard in an internal team but for an agency it's a matter of life or death. 
+It's stressful and hard in an L&D team but for an agency it's a matter of life or death. 
 
 This book is going to get into the how-to out of necessity. There are strong opinions and yeah, I’m going to try to sell these ideas to you.
 
 But this isn’t prescriptive. Every L&D department is different, and should be different, because every business is different. The aim of this book is to give you food for thought. Maybe you’ll implement all the ideas. Maybe some, maybe none. Hold the ideas in this book up against how your L&D function runs now. Have an open mind and be critical.
 
-One last thing ~ Change is hard. In no way am I saying that any of this will be easy. It takes effort to try new ways of working. Doing nothing new will be much easier.
+Change is hard. In no way am I saying that any of this will be easy. It takes effort to try new ways of working. Doing nothing new will be much easier.
