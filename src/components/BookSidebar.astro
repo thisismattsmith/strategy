@@ -1,0 +1,287 @@
+---
+// BookSidebar.astro — the left-rail table of contents for the book.
+// Parts act as accordions: click to expand/collapse their chapters.
+// The Part containing the current page is open by default.
+// On mobile, the whole sidebar collapses behind a "Contents" toggle.
+//
+// Theming: when used inside a dark layout, the parent sets [data-theme="dark"]
+// on the sidebar's container and the styles adapt.
+
+import { tocGroups, activePartSlug } from '../data/book-structure';
+
+export interface Props {
+  currentSlug: string;
+}
+
+const { currentSlug } = Astro.props;
+const groups = tocGroups();
+const openPart = activePartSlug(currentSlug);
+---
+<aside class="bk-sidebar">
+  <button class="bk-toggle" type="button" aria-expanded="false" aria-controls="bk-toc">
+    <span class="bk-toggle-label">Contents</span>
+    <span class="bk-toggle-icon" aria-hidden="true">+</span>
+  </button>
+
+  <nav class="bk-toc" id="bk-toc" aria-label="Book contents">
+    <p class="bk-title">
+      <a href="/second-advantage">The Second Advantage</a>
+    </p>
+
+    <ol class="bk-list">
+      {groups.map(({ node, chapters }) => {
+        const isCurrent = node.slug === currentSlug;
+        const containsCurrent = chapters.some((c) => c.slug === currentSlug);
+        const isOpen = node.slug === openPart || containsCurrent || isCurrent;
+        return (
+          <li class={`bk-item bk-${node.kind}`}>
+            {node.kind === 'intro' && (
+              <a
+                href={`/second-advantage/${node.slug}`}
+                class={`bk-link ${isCurrent ? 'is-current' : ''}`}
+                aria-current={isCurrent ? 'page' : undefined}
+              >
+                {node.title}
+              </a>
+            )}
+
+            {node.kind === 'part' && (
+              <details open={isOpen} class="bk-part-details">
+                <summary class="bk-part-summary">
+                  <span class="bk-part-label">{node.label}.</span>
+                  <a
+                    href={`/second-advantage/${node.slug}`}
+                    class={`bk-part-link ${isCurrent ? 'is-current' : ''}`}
+                    aria-current={isCurrent ? 'page' : undefined}
+                  >
+                    {node.title}
+                  </a>
+                  {chapters.length > 0 && (
+                    <span class="bk-caret" aria-hidden="true">›</span>
+                  )}
+                </summary>
+
+                {chapters.length > 0 && (
+                  <ol class="bk-chapters">
+                    {chapters.map((ch) => {
+                      const chCurrent = ch.slug === currentSlug;
+                      return (
+                        <li>
+                          <a
+                            href={`/second-advantage/${ch.slug}`}
+                            class={`bk-chapter-link ${chCurrent ? 'is-current' : ''}`}
+                            aria-current={chCurrent ? 'page' : undefined}
+                          >
+                            <span class="bk-ch-label">{ch.label}.</span>
+                            <span class="bk-ch-title">{ch.title}</span>
+                          </a>
+                        </li>
+                      );
+                    })}
+                  </ol>
+                )}
+              </details>
+            )}
+          </li>
+        );
+      })}
+    </ol>
+  </nav>
+</aside>
+
+<script>
+  // Mobile: toggle the contents drawer.
+  const toggle = document.querySelector<HTMLButtonElement>('.bk-toggle');
+  const toc = document.getElementById('bk-toc');
+  toggle?.addEventListener('click', () => {
+    const expanded = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', String(!expanded));
+    toc?.classList.toggle('is-open', !expanded);
+    const icon = toggle.querySelector('.bk-toggle-icon');
+    if (icon) icon.textContent = expanded ? '+' : '−';
+  });
+</script>
+
+<style>
+  /* ============================================================
+     LIGHT (default) — chapters & intro
+     ============================================================ */
+  .bk-sidebar {
+    font-family: var(--font-body);
+    color: var(--ink);
+  }
+
+  /* Mobile toggle — hidden on desktop */
+  .bk-toggle {
+    display: none;
+    width: 100%;
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--ink);
+    padding: 12px 16px;
+    font-family: var(--font-mono);
+    font-size: var(--t-mono);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    cursor: pointer;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .bk-toggle-icon { font-family: var(--font-body); font-size: 18px; line-height: 1; }
+
+  .bk-toc { display: block; }
+
+  .bk-title {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 18px;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    margin-bottom: var(--s4);
+    padding-bottom: var(--s3);
+    border-bottom: 1px solid var(--line);
+  }
+  .bk-title a { color: inherit; }
+  .bk-title a:hover { color: var(--signal); }
+
+  .bk-list { list-style: none; padding: 0; margin: 0; }
+  .bk-item { padding: 0; }
+  .bk-item + .bk-item { margin-top: var(--s2); }
+
+  /* Intro link */
+  .bk-intro .bk-link {
+    display: block;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: -0.005em;
+    color: var(--ink);
+    padding: 6px 0;
+    border-left: 2px solid transparent;
+    padding-left: 10px;
+    margin-left: -12px;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .bk-intro .bk-link:hover { color: var(--signal); }
+  .bk-intro .bk-link.is-current { border-left-color: var(--signal); color: var(--ink); font-weight: 800; }
+
+  /* Part details (the accordion) */
+  .bk-part-details { margin-top: var(--s2); }
+  .bk-part-details > summary { list-style: none; cursor: pointer; }
+  .bk-part-details > summary::-webkit-details-marker { display: none; }
+
+  .bk-part-summary {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: baseline;
+    gap: 8px;
+    padding: 6px 0;
+  }
+  .bk-part-label {
+    font-family: var(--font-mono);
+    font-size: var(--t-mono);
+    letter-spacing: 0.14em;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+  }
+  .bk-part-link {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 14px;
+    letter-spacing: -0.005em;
+    color: var(--ink);
+    line-height: 1.3;
+  }
+  .bk-part-link:hover { color: var(--signal); }
+  .bk-part-link.is-current { color: var(--signal); }
+
+  .bk-caret {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--ink-faint);
+    transition: transform 0.2s ease;
+    transform: rotate(90deg);
+    transform-origin: center;
+  }
+  .bk-part-details[open] .bk-caret { transform: rotate(-90deg); }
+
+  /* Chapter list under a part */
+  .bk-chapters {
+    list-style: none;
+    padding: 0;
+    margin: 8px 0 4px 0;
+    border-left: 1px solid var(--line-soft);
+    margin-left: 4px;
+  }
+  .bk-chapter-link {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 8px;
+    padding: 6px 0 6px 14px;
+    margin-left: -1px;
+    border-left: 2px solid transparent;
+    color: var(--ink-soft);
+    transition: color 0.15s, border-color 0.15s;
+    font-size: 13px;
+    line-height: 1.4;
+  }
+  .bk-chapter-link:hover { color: var(--ink); }
+  .bk-chapter-link.is-current {
+    color: var(--ink);
+    border-left-color: var(--signal);
+    font-weight: 700;
+  }
+  .bk-ch-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.10em;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+    padding-top: 1px;
+  }
+  .bk-chapter-link.is-current .bk-ch-label { color: var(--signal); }
+
+  /* ============================================================
+     DARK — for part-cover pages
+     ============================================================ */
+  :global([data-theme="dark"]) .bk-sidebar { color: var(--paper); }
+  :global([data-theme="dark"]) .bk-toggle {
+    border-color: rgba(239, 234, 227, 0.3);
+    color: var(--paper);
+  }
+  :global([data-theme="dark"]) .bk-title {
+    border-bottom-color: rgba(239, 234, 227, 0.2);
+  }
+  :global([data-theme="dark"]) .bk-intro .bk-link,
+  :global([data-theme="dark"]) .bk-part-link {
+    color: var(--paper);
+  }
+  :global([data-theme="dark"]) .bk-intro .bk-link:hover,
+  :global([data-theme="dark"]) .bk-part-link:hover { color: var(--signal); }
+  :global([data-theme="dark"]) .bk-part-label,
+  :global([data-theme="dark"]) .bk-ch-label,
+  :global([data-theme="dark"]) .bk-caret { color: var(--concrete); }
+  :global([data-theme="dark"]) .bk-chapters {
+    border-left-color: rgba(239, 234, 227, 0.18);
+  }
+  :global([data-theme="dark"]) .bk-chapter-link { color: var(--concrete); }
+  :global([data-theme="dark"]) .bk-chapter-link:hover { color: var(--paper); }
+  :global([data-theme="dark"]) .bk-chapter-link.is-current { color: var(--paper); }
+
+  /* ============================================================
+     MOBILE — collapse the whole sidebar behind a toggle
+     ============================================================ */
+  @media (max-width: 900px) {
+    .bk-toggle { display: flex; }
+    .bk-toc {
+      display: none;
+      margin-top: var(--s3);
+      padding-top: var(--s3);
+      border-top: 1px solid var(--line);
+    }
+    .bk-toc.is-open { display: block; }
+    :global([data-theme="dark"]) .bk-toc {
+      border-top-color: rgba(239, 234, 227, 0.2);
+    }
+  }
+</style>

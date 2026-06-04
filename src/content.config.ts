@@ -16,4 +16,15 @@ const blog = defineCollection({
   }),
 });
 
-export const collections = { blog };
+// The Second Advantage — book content collection.
+// Reading order, hierarchy, and labels live in src/data/book-structure.ts.
+// Markdown files just provide title, description, and body.
+const book = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/book' }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string().optional(), // serves as the deck/lede under the title
+  }),
+});
+
+export const collections = { blog, book };

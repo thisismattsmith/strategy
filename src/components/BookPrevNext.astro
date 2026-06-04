@@ -1,0 +1,93 @@
+---
+// BookPrevNext.astro — bottom-of-page navigation between book pages.
+// Resolves prev/next by index from book-structure.ts.
+// Theme adapts via the parent's [data-theme="dark"] attribute.
+
+import { getPrev, getNext } from '../data/book-structure';
+
+export interface Props {
+  currentSlug: string;
+}
+
+const { currentSlug } = Astro.props;
+const prev = getPrev(currentSlug);
+const next = getNext(currentSlug);
+
+const fmtLabel = (n: typeof prev): string => {
+  if (!n) return '';
+  if (n.kind === 'intro') return 'Introduction';
+  return `${n.label}. ${n.title}`;
+};
+---
+<nav class="pn" aria-label="Book navigation">
+  {prev ? (
+    <a href={`/second-advantage/${prev.slug}`} class="pn-link pn-prev">
+      <span class="pn-direction">← Previous</span>
+      <span class="pn-title">{fmtLabel(prev)}</span>
+    </a>
+  ) : (
+    <span class="pn-spacer" />
+  )}
+
+  {next ? (
+    <a href={`/second-advantage/${next.slug}`} class="pn-link pn-next">
+      <span class="pn-direction">Next →</span>
+      <span class="pn-title">{fmtLabel(next)}</span>
+    </a>
+  ) : (
+    <span class="pn-spacer" />
+  )}
+</nav>
+
+<style>
+  .pn {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--s3);
+    margin-top: var(--s6);
+    padding-top: var(--s4);
+    border-top: 2px solid var(--ink);
+  }
+
+  .pn-link {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 16px 0;
+    color: var(--ink);
+    border-bottom: 1px solid transparent;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .pn-prev { text-align: left; }
+  .pn-next { text-align: right; align-items: flex-end; }
+
+  .pn-direction {
+    font-family: var(--font-mono);
+    font-size: var(--t-mono);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .pn-title {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: var(--t-h3);
+    letter-spacing: -0.015em;
+    line-height: 1.15;
+  }
+
+  .pn-link:hover { color: var(--signal); }
+  .pn-link:hover .pn-direction { color: var(--signal); }
+
+  .pn-spacer { display: block; }
+
+  /* Dark theme — for part-cover pages */
+  :global([data-theme="dark"]) .pn { border-top-color: var(--paper); }
+  :global([data-theme="dark"]) .pn-link { color: var(--paper); }
+  :global([data-theme="dark"]) .pn-direction { color: var(--concrete); }
+
+  @media (max-width: 720px) {
+    .pn { grid-template-columns: 1fr; gap: var(--s2); }
+    .pn-next { text-align: left; align-items: flex-start; }
+  }
+</style>

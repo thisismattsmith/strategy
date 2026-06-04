@@ -1,0 +1,188 @@
+---
+// /second-advantage — landing page for the book.
+// Dark, centred, hero layout. Two CTAs: "Buy the book" (outlined),
+// "Read free online" (orange, links to the book's first page).
+//
+// Kept within the standard site header/footer so the page reads as a
+// distinct landing inside the Strategic L&D site, rather than a separate
+// microsite.
+//
+// NOTE: the "Buy the book" link is a placeholder (#) until the purchase
+// URL is known.
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const BUY_URL = '#';                                    // TODO: replace when known
+const READ_URL = '/second-advantage/introduction';      // first page of the book
+---
+<BaseLayout
+  title="The Second Advantage · Strategic L&D"
+  description="What internal L&D can take from the agencies they hire."
+  current=""
+>
+  <section class="sa-hero" aria-labelledby="sa-title">
+    <p class="sa-eyebrow">
+      <span class="sa-dot"></span>
+      A book by Strategic L&amp;D
+    </p>
+
+    <h1 id="sa-title" class="sa-title">The <em>Second</em> Advantage</h1>
+
+    <p class="sa-sub">What internal L&amp;D can take from the agencies they hire.</p>
+
+    <p class="sa-body">
+      Agencies don't just produce the work better. They run the work better. The intake, the qualification, the discovery, the project rhythm, the team model — the whole operating layer around the deliverable.
+    </p>
+    <p class="sa-body">
+      That's the second advantage. This book is about what internal L&amp;D teams can take from it.
+    </p>
+
+    <div class="sa-actions">
+      <a href={BUY_URL} class="sa-btn sa-btn-outline">
+        Buy the book
+        <span class="sa-arrow" aria-hidden="true">→</span>
+      </a>
+      <a href={READ_URL} class="sa-btn sa-btn-signal">
+        Read free online
+        <span class="sa-arrow" aria-hidden="true">→</span>
+      </a>
+    </div>
+
+    <p class="sa-foot">
+      Reads in a few hours. Designed to be read in order, or dipped into by chapter.
+    </p>
+  </section>
+</BaseLayout>
+
+<style>
+  /* The dark hero fills the viewport edge-to-edge BETWEEN the site header
+     and footer, so the page reads as a dark landing without overriding the
+     site chrome. */
+  .sa-hero {
+    background: var(--ink);
+    color: var(--paper);
+    padding: clamp(80px, 12vw, 160px) var(--pad-x);
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .sa-eyebrow {
+    font-family: var(--font-mono);
+    font-size: var(--t-mono);
+    letter-spacing: 0.20em;
+    text-transform: uppercase;
+    color: var(--concrete);
+    margin-bottom: var(--s5);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .sa-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: var(--signal);
+    border-radius: 50%;
+  }
+
+  .sa-title {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: clamp(56px, 8vw, 112px);
+    letter-spacing: -0.04em;
+    line-height: 0.92;
+    margin-bottom: var(--s4);
+    max-width: 14ch;
+  }
+  .sa-title em {
+    font-style: italic;
+    color: var(--signal);
+    /* Avoid italic taking the title to its sad geometry — keep the same weight */
+    font-weight: 900;
+  }
+
+  .sa-sub {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(20px, 2vw, 26px);
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+    color: var(--paper);
+    max-width: 36ch;
+    margin: 0 auto var(--s5);
+    opacity: 0.92;
+  }
+
+  .sa-body {
+    font-size: var(--t-deck);
+    line-height: 1.6;
+    color: var(--concrete);
+    max-width: 56ch;
+    margin: 0 auto var(--s3);
+  }
+  .sa-body + .sa-body { margin-top: 0; }
+
+  .sa-actions {
+    display: flex;
+    gap: var(--s3);
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: var(--s5);
+  }
+
+  .sa-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 28px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: -0.005em;
+    border: 1px solid currentColor;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+  }
+  .sa-btn-outline {
+    background: transparent;
+    color: var(--paper);
+    border-color: var(--paper);
+  }
+  .sa-btn-outline:hover {
+    background: var(--paper);
+    color: var(--ink);
+  }
+  .sa-btn-signal {
+    background: var(--signal);
+    color: var(--paper);
+    border-color: var(--signal);
+  }
+  .sa-btn-signal:hover {
+    background: var(--paper);
+    color: var(--ink);
+    border-color: var(--paper);
+  }
+  .sa-arrow {
+    display: inline-block;
+    transition: transform 0.18s ease;
+  }
+  .sa-btn:hover .sa-arrow { transform: translateX(4px); }
+
+  .sa-foot {
+    margin-top: var(--s6);
+    font-family: var(--font-mono);
+    font-size: var(--t-mono);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--concrete);
+    max-width: 44ch;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 600px) {
+    .sa-actions { flex-direction: column; align-items: stretch; }
+    .sa-btn { justify-content: center; }
+  }
+</style>

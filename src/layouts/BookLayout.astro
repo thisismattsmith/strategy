@@ -1,0 +1,264 @@
+---
+// BookLayout.astro — reading layout for The Second Advantage.
+// Sidebar (collapsible TOC) on the left, narrow prose column on the right,
+// prev/next nav at the foot.
+//
+// Theme is controlled by `kind`:
+//   • intro    → light
+//   • chapter  → light (matches the blog post layout)
+//   • part     → dark (the whole reading area, including sidebar)
+//
+// The site Header and Footer are preserved for consistency with the rest
+// of the site. The dark theme applies only to the book reading area.
+
+import BaseLayout from './BaseLayout.astro';
+import BookSidebar from '../components/BookSidebar.astro';
+import BookPrevNext from '../components/BookPrevNext.astro';
+import { getNode, BOOK, type BookNode } from '../data/book-structure';
+
+export interface Props {
+  node: BookNode;
+  description?: string;
+}
+
+const { node, description } = Astro.props;
+const isDark = node.kind === 'part';
+const themeAttr = isDark ? 'dark' : 'light';
+
+// Eyebrow / breadcrumb logic per page kind.
+//   intro   → "The Second Advantage · Introduction"
+//   part    → "The Second Advantage · Part 1 of 4"
+//   chapter → "Chapter N · in Part N. {Part title}" (Part is linked)
+const totalParts = BOOK.filter((n) => n.kind === 'part').length;
+const partIndex = node.kind === 'part'
+  ? BOOK.filter((n) => n.kind === 'part').findIndex((n) => n.slug === node.slug) + 1
+  : 0;
+const parentPart = node.kind === 'chapter' && node.partSlug ? getNode(node.partSlug) : undefined;
+
+const pageTitle =
+  node.kind === 'chapter' || node.kind === 'part'
+    ? `${node.label}. ${node.title} · The Second Advantage`
+    : `${node.title} · The Second Advantage`;
+
+const pageDescription =
+  description ?? 'The Second Advantage — what internal L&D can take from the agencies they hire.';
+---
+<BaseLayout title={pageTitle} description={pageDescription} current="">
+  <div class={`bk-wrap bk-${themeAttr}`} data-theme={themeAttr}>
+    <div class="bk-grid">
+      <BookSidebar currentSlug={node.slug} />
+
+      <article class="bk-article">
+        <header class="bk-head">
+          {node.kind === 'intro' && (
+            <p class="bk-eyebrow">
+              <a href="/second-advantage" class="bk-eyebrow-link">The Second Advantage</a>
+              <span class="bk-eyebrow-sep">·</span>
+              <span>Introduction</span>
+            </p>
+          )}
+          {node.kind === 'part' && (
+            <p class="bk-eyebrow">
+              <a href="/second-advantage" class="bk-eyebrow-link">The Second Advantage</a>
+              <span class="bk-eyebrow-sep">·</span>
+              <span>{node.label} of {totalParts}</span>
+            </p>
+          )}
+          {node.kind === 'chapter' && parentPart && (
+            <p class="bk-eyebrow">
+              <span>{node.label}</span>
+              <span class="bk-eyebrow-sep">·</span>
+              <span>in</span>
+              <a href={`/second-advantage/${parentPart.slug}`} class="bk-eyebrow-link">
+                {parentPart.label}. {parentPart.title}
+              </a>
+            </p>
+          )}
+
+          <h1 class="bk-h1">{node.title}</h1>
+        </header>
+
+        <div class="bk-prose">
+          <slot />
+        </div>
+
+        <BookPrevNext currentSlug={node.slug} />
+
+        <p class="bk-back">
+          <a href="/second-advantage">← Back to The Second Advantage</a>
+        </p>
+      </article>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  /* The dark wrap fills the whole reading area edge-to-edge,
+     including under the sidebar, so light and dark pages are visually
+     distinct as you navigate between them. */
+  .bk-wrap {
+    padding: var(--s6) 0 var(--s5);
+  }
+  .bk-wrap.bk-dark {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .bk-grid {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 0 var(--pad-x);
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: var(--s6);
+    align-items: start;
+  }
+
+  /* Sidebar — sticky on desktop so it stays visible while reading */
+  .bk-grid > :global(.bk-sidebar) {
+    position: sticky;
+    top: var(--s3);
+    max-height: calc(100vh - var(--s4));
+    overflow-y: auto;
+    padding-right: var(--s2);
+  }
+
+  .bk-article {
+    max-width: 760px;
+  }
+
+  .bk-head {
+    padding-bottom: var(--s5);
+    border-bottom: 2px solid var(--ink);
+    margin-bottom: var(--s5);
+  }
+  .bk-dark .bk-head { border-bottom-color: var(--paper); }
+
+  .bk-eyebrow {
+    font-family: var(--font-mono);
+    font-size: var(--t-mono);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .bk-dark .bk-eyebrow { color: var(--concrete); }
+  .bk-eyebrow-sep { color: var(--ink-faint); }
+  .bk-dark .bk-eyebrow-sep { color: var(--concrete); opacity: 0.6; }
+
+  .bk-eyebrow-link {
+    color: inherit;
+    border-bottom: 1px solid transparent;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .bk-eyebrow-link:hover { color: var(--signal); border-bottom-color: var(--signal); }
+
+  .bk-h1 {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: var(--t-display);
+    letter-spacing: -0.035em;
+    line-height: 0.98;
+    margin: var(--s3) 0 var(--s3);
+  }
+  .bk-dark .bk-h1 { color: var(--paper); }
+
+  .bk-deck {
+    font-size: var(--t-deck);
+    line-height: 1.55;
+    color: var(--ink-soft);
+    max-width: 60ch;
+  }
+  .bk-dark .bk-deck { color: var(--concrete); }
+
+  /* Prose — mirrors the blog post .prose styles, with dark overrides */
+  .bk-prose :global(h2) {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: var(--t-h2);
+    letter-spacing: -0.025em;
+    line-height: 1.05;
+    margin: var(--s6) 0 var(--s2);
+  }
+  .bk-prose :global(h3) {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: var(--t-h3);
+    letter-spacing: -0.015em;
+    margin: var(--s5) 0 var(--s2);
+  }
+  .bk-prose :global(p) {
+    font-size: 18px;
+    line-height: 1.7;
+    margin: 0 0 var(--s3);
+    color: var(--ink);
+  }
+  .bk-dark .bk-prose :global(p),
+  .bk-dark .bk-prose :global(h2),
+  .bk-dark .bk-prose :global(h3) { color: var(--paper); }
+
+  .bk-prose :global(a) {
+    color: var(--ink);
+    border-bottom: 1px solid var(--signal);
+  }
+  .bk-prose :global(a:hover) { color: var(--signal); }
+  .bk-dark .bk-prose :global(a) { color: var(--paper); }
+  .bk-dark .bk-prose :global(a:hover) { color: var(--signal); }
+
+  .bk-prose :global(strong) { font-weight: 700; }
+  .bk-prose :global(em) { font-style: italic; }
+
+  .bk-prose :global(ul),
+  .bk-prose :global(ol) {
+    margin: 0 0 var(--s3) 0;
+    padding-left: var(--s3);  /* small indent so bullets/numbers sit inside the column */
+  }
+  .bk-prose :global(li) {
+    font-size: 18px; line-height: 1.7; margin-bottom: var(--s1); color: var(--ink);
+    padding-left: 6px; /* small breathing space between marker and text */
+  }
+  .bk-dark .bk-prose :global(li) { color: var(--paper); }
+
+  .bk-prose :global(blockquote) {
+    border-left: 3px solid var(--signal);
+    padding-left: var(--s3);
+    margin: var(--s4) 0;
+    font-size: 22px;
+    line-height: 1.5;
+    font-weight: 500;
+  }
+
+  .bk-prose :global(hr) {
+    border: none;
+    border-top: 1px dashed var(--line-soft);
+    margin: var(--s5) 0;
+  }
+  .bk-dark .bk-prose :global(hr) { border-top-color: rgba(239, 234, 227, 0.18); }
+
+  /* Back to the landing page — small mono link under prev/next */
+  .bk-back {
+    margin-top: var(--s4);
+    font-family: var(--font-mono);
+    font-size: var(--t-small);
+    letter-spacing: 0.08em;
+    color: var(--ink-soft);
+  }
+  .bk-back a:hover { color: var(--ink); }
+  .bk-dark .bk-back { color: var(--concrete); }
+  .bk-dark .bk-back a:hover { color: var(--paper); }
+
+  @media (max-width: 900px) {
+    .bk-grid {
+      grid-template-columns: 1fr;
+      gap: var(--s4);
+    }
+    .bk-grid > :global(.bk-sidebar) {
+      position: static;
+      max-height: none;
+      overflow: visible;
+      padding-right: 0;
+    }
+  }
+</style>

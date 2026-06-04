@@ -1,0 +1,27 @@
+---
+// /second-advantage/[slug] — dynamic book pages.
+// Resolves each entry in src/content/book/ to its corresponding node
+// in book-structure.ts, then renders through BookLayout.
+
+import { getCollection, render } from 'astro:content';
+import BookLayout from '../../layouts/BookLayout.astro';
+import { getNode } from '../../data/book-structure';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('book');
+  return entries
+    .map((entry) => {
+      const node = getNode(entry.id);
+      // Skip any markdown file that isn't in the structure (defensive).
+      if (!node) return null;
+      return { params: { slug: entry.id }, props: { entry, node } };
+    })
+    .filter(Boolean);
+}
+
+const { entry, node } = Astro.props;
+const { Content } = await render(entry);
+---
+<BookLayout node={node} description={entry.data.description}>
+  <Content />
+</BookLayout>
