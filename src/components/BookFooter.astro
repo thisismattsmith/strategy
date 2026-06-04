@@ -1,0 +1,93 @@
+---
+// BookFooter.astro — closing band below every book page (intro, chapter, part).
+// Always dark. No top border — the page above provides whatever separation
+// it needs. Links use the shared .link-accent style from tokens.css.
+
+const BUY_URL = '#';  // TODO: replace when the purchase URL is known
+---
+<footer class="bf">
+  <div class="bf-inner">
+    <div class="bf-text">
+      <p>
+        Written by
+        <a
+          href="https://www.linkedin.com/in/thisismattsmith/"
+          target="_blank"
+          rel="noopener"
+          class="link-accent"
+        >Matt Smith</a>
+        and presented by
+        <a
+          href="/"
+          target="_blank"
+          rel="noopener"
+          class="link-accent"
+        >Strategic L&amp;D</a>.
+      </p>
+      <p>
+        <a
+          href="mailto:hello@thisismattsmith.com"
+          target="_blank"
+          rel="noopener"
+          class="link-accent"
+        >Get in touch</a>
+        if you'd like to discuss the ideas in this book or implement them.
+      </p>
+    </div>
+
+    <div class="bf-cta">
+      <a href={BUY_URL} class="bf-btn">Buy the book</a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .bf {
+    background: var(--ink);
+    color: var(--paper);
+    padding: var(--s4) var(--pad-x);
+  }
+  .bf-inner {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    display: grid;
+    /* generous text column; button takes only what it needs */
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: var(--s5);
+    align-items: center;
+  }
+
+  .bf-text p {
+    font-size: var(--t-body);
+    line-height: 1.55;
+    color: var(--concrete);
+    /* no max-width — let the text use the full column so the second
+       line stays on one row on desktop */
+  }
+  .bf-text p + p { margin-top: 6px; }
+
+  /* ------- buy button -------
+     Light outlined, matches the landing page's outline style at a smaller scale. */
+  .bf-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 22px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--paper);
+    background: transparent;
+    border: 1px solid var(--paper);
+    white-space: nowrap;
+    transition: background 0.15s, color 0.15s;
+  }
+  .bf-btn:hover { background: var(--paper); color: var(--ink); }
+
+  @media (max-width: 720px) {
+    .bf-inner {
+      grid-template-columns: 1fr;
+      gap: var(--s3);
+    }
+    .bf-btn { align-self: flex-start; }
+  }
+</style>

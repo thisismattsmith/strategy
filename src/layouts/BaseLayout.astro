@@ -7,6 +7,10 @@ const {
   title = 'Strategic L&D — A strategy design office for L&D teams',
   description = 'A strategy design office for L&D teams that want to be more efficient and more strategic.',
   current = '',
+  hideChrome = false,  // when true: no global Header (incl. top util strip) and no Footer.
+  immersiveBg,         // CSS color to apply to the body when hideChrome is on
+                       //   (e.g. 'var(--ink)' for dark pages, 'var(--paper)' for light).
+                       //   Avoids any chrome-coloured edge on scroll bounce.
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
@@ -29,9 +33,12 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
        carrying "Field Note No. XX" and the title. Likely implemented as an Astro
        endpoint at /og/[slug].png using satori or @vercel/og. */}
 </head>
-<body>
-  <Header current={current} />
+<body
+  class={hideChrome ? 'no-chrome' : ''}
+  style={hideChrome && immersiveBg ? `background: ${immersiveBg};` : undefined}
+>
+  {!hideChrome && <Header current={current} />}
   <slot />
-  <Footer />
+  {!hideChrome && <Footer />}
 </body>
 </html>

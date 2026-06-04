@@ -81,6 +81,34 @@ a { color: inherit; text-decoration: none; }
 }
 .btn-secondary:hover { color: var(--signal); border-color: var(--signal); }
 
+/* link-accent — orange text in dark contexts; on hover the text returns
+   to paper and an orange highlight sweeps in from the left under the text.
+   Used in the book footer and the book landing's credit line. */
+.link-accent {
+  position: relative;
+  display: inline-block;
+  color: var(--signal);
+  z-index: 0;
+  transition: color 0.2s ease;
+}
+.link-accent::after {
+  content: "";
+  position: absolute;
+  left: -2px;
+  right: -2px;
+  bottom: 0.08em;
+  height: 0.10em;
+  background: var(--signal);
+  z-index: -1;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.3s ease;
+}
+.link-accent:hover { color: var(--paper); }
+.link-accent:hover::after { transform: scaleX(1); }
+.link-accent:focus-visible { color: var(--paper); outline: none; }
+.link-accent:focus-visible::after { transform: scaleX(1); }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }

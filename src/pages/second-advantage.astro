@@ -18,13 +18,10 @@ const READ_URL = '/second-advantage/introduction';      // first page of the boo
   title="The Second Advantage · Strategic L&D"
   description="What internal L&D can take from the agencies they hire."
   current=""
+  hideChrome
+  immersiveBg="var(--ink)"
 >
   <section class="sa-hero" aria-labelledby="sa-title">
-    <p class="sa-eyebrow">
-      <span class="sa-dot"></span>
-      A book by Strategic L&amp;D
-    </p>
-
     <h1 id="sa-title" class="sa-title">The <em>Second</em> Advantage</h1>
 
     <p class="sa-sub">What internal L&amp;D can take from the agencies they hire.</p>
@@ -47,8 +44,18 @@ const READ_URL = '/second-advantage/introduction';      // first page of the boo
       </a>
     </div>
 
-    <p class="sa-foot">
-      Reads in a few hours. Designed to be read in order, or dipped into by chapter.
+    <p class="sa-credit">
+      <span class="sa-dot" aria-hidden="true"></span>Presented by <a
+        href="/"
+        target="_blank"
+        rel="noopener"
+        class="link-accent"
+      >Strategic L&amp;D</a> · Written by <a
+        href="https://www.linkedin.com/in/thisismattsmith/"
+        target="_blank"
+        rel="noopener"
+        class="link-accent"
+      >Matt Smith</a>
     </p>
   </section>
 </BaseLayout>
@@ -61,7 +68,7 @@ const READ_URL = '/second-advantage/introduction';      // first page of the boo
     background: var(--ink);
     color: var(--paper);
     padding: clamp(80px, 12vw, 160px) var(--pad-x);
-    min-height: 80vh;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -69,16 +76,14 @@ const READ_URL = '/second-advantage/introduction';      // first page of the boo
     text-align: center;
   }
 
-  .sa-eyebrow {
+  .sa-credit {
+    margin-top: var(--s5);
     font-family: var(--font-mono);
     font-size: var(--t-mono);
-    letter-spacing: 0.20em;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--concrete);
-    margin-bottom: var(--s5);
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
+    line-height: 1.6;
   }
   .sa-dot {
     display: inline-block;
@@ -86,6 +91,10 @@ const READ_URL = '/second-advantage/introduction';      // first page of the boo
     height: 8px;
     background: var(--signal);
     border-radius: 50%;
+    vertical-align: middle;
+    margin-right: 10px;
+    position: relative;
+    top: -1px;
   }
 
   .sa-title {
@@ -169,17 +178,6 @@ const READ_URL = '/second-advantage/introduction';      // first page of the boo
     transition: transform 0.18s ease;
   }
   .sa-btn:hover .sa-arrow { transform: translateX(4px); }
-
-  .sa-foot {
-    margin-top: var(--s6);
-    font-family: var(--font-mono);
-    font-size: var(--t-mono);
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--concrete);
-    max-width: 44ch;
-    line-height: 1.6;
-  }
 
   @media (max-width: 600px) {
     .sa-actions { flex-direction: column; align-items: stretch; }

@@ -88,6 +88,8 @@ const fmtLabel = (n: typeof prev): string => {
 
   @media (max-width: 720px) {
     .pn { grid-template-columns: 1fr; gap: var(--s2); }
-    .pn-next { text-align: left; align-items: flex-start; }
+    .pn-next { text-align: left; align-items: flex-start; order: 1; }
+    .pn-prev { order: 2; }
+    .pn-spacer { order: 3; }
   }
 </style>

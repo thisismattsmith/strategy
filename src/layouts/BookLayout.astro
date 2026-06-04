@@ -14,6 +14,7 @@
 import BaseLayout from './BaseLayout.astro';
 import BookSidebar from '../components/BookSidebar.astro';
 import BookPrevNext from '../components/BookPrevNext.astro';
+import BookFooter from '../components/BookFooter.astro';
 import { getNode, BOOK, type BookNode } from '../data/book-structure';
 
 export interface Props {
@@ -43,7 +44,13 @@ const pageTitle =
 const pageDescription =
   description ?? 'The Second Advantage — what internal L&D can take from the agencies they hire.';
 ---
-<BaseLayout title={pageTitle} description={pageDescription} current="">
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  current=""
+  hideChrome
+  immersiveBg={isDark ? 'var(--ink)' : 'var(--paper)'}
+>
   <div class={`bk-wrap bk-${themeAttr}`} data-theme={themeAttr}>
     <div class="bk-grid">
       <BookSidebar currentSlug={node.slug} />
@@ -90,14 +97,19 @@ const pageDescription =
       </article>
     </div>
   </div>
+
+  <BookFooter />
 </BaseLayout>
 
 <style>
-  /* The dark wrap fills the whole reading area edge-to-edge,
-     including under the sidebar, so light and dark pages are visually
-     distinct as you navigate between them. */
+  /* The wrap fills the whole reading area edge-to-edge, including under the
+     sidebar, in whichever theme the page uses. min-height: 100vh guarantees
+     the wrap covers the viewport, so the page reads as fully light or fully
+     dark with no chrome to break the field. */
   .bk-wrap {
+    background: var(--paper);
     padding: var(--s6) 0 var(--s5);
+    min-height: 100vh;
   }
   .bk-wrap.bk-dark {
     background: var(--ink);
@@ -128,9 +140,9 @@ const pageDescription =
   }
 
   .bk-head {
-    padding-bottom: var(--s5);
+    padding-bottom: var(--s2);   /* rule sits just under the heading */
     border-bottom: 2px solid var(--ink);
-    margin-bottom: var(--s5);
+    margin-bottom: var(--s5);    /* space below the rule is unchanged */
   }
   .bk-dark .bk-head { border-bottom-color: var(--paper); }
 
@@ -161,7 +173,7 @@ const pageDescription =
     font-size: var(--t-display);
     letter-spacing: -0.035em;
     line-height: 0.98;
-    margin: var(--s3) 0 var(--s3);
+    margin: var(--s3) 0 0;       /* no bottom margin — rule sits just under */
   }
   .bk-dark .bk-h1 { color: var(--paper); }
 
